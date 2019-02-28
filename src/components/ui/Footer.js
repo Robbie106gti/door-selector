@@ -5,15 +5,7 @@ export default class Footer extends Component {
     return (
       <footer className="page-footer brown darken-3 no-print">
         <div className="footer-copyright">
-          <div className="container">
-            © 2019 Copyright Nickels Cabinets
-            <a
-              className="grey-text text-lighten-4 right"
-              href="https://webquoin.com/catalog/build/"
-            >
-              Start Catalog
-            </a>
-          </div>
+          <div className="container">© 2019 Copyright Nickels Cabinets</div>
         </div>
       </footer>
     );
