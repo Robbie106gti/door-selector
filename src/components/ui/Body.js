@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export default class Body extends Component {
-  onBookmark() {
+  onBookmark = () => {
     console.log('Clicked');
-  }
+  };
+
   render() {
     const { testTitle, array } = this.props;
     return (
