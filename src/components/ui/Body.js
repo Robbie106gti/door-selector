@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 export default class Body extends Component {
   onBookmark = () => {
@@ -21,6 +22,11 @@ export default class Body extends Component {
             </li>
           ))}
         </ul>
+        <Link to="/silly">Silly</Link>
+        <br />
+        <Link to="/about">About</Link>
+        <br />
+        <Link to="/404">404</Link>
       </div>
     );
   }
