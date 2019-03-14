@@ -19,12 +19,13 @@ class App extends Component {
         <Router>
           <div className="App">
             <Header title="Door selector" />
-            <div class="row">
+            <div className="row">
               <Switch>
                 <Route exact path="/" component={Body} />
-                <Route exact path="/404" component={Notfound} />
                 <Route exact path="/about" component={About} />
                 <Route exact path="/silly" component={Silly} />
+                <Route exact path="/404" component={Notfound} />
+                <Route exact path="/*" component={Notfound} />
               </Switch>
             </div>
             <Footer />

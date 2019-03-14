@@ -6,7 +6,7 @@ export default function notfound() {
     <div>
       <h1>The page you are looking for is not found: 404</h1>
       <p>Sorry for your inconvenience</p>
-      <Link to="/about">About</Link>
+      <Link to="./about">About</Link>
       <br />
       <Link to="/">Home</Link>
     </div>
