@@ -12,6 +12,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5"
   },
+  "homepage": "https://webquoin.com/catalog/door-selector",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

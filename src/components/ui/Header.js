@@ -11,7 +11,7 @@ export default class Header extends Component {
             <a href="./" className="brand-logo">
               <img
                 className="imageLogo"
-                src="/assets/logos/logoNCs.png"
+                src="./assets/logos/logoNCs.png"
                 alt="Nickels Cabinets"
               />
               <span className="headingLogo">
