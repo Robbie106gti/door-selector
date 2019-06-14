@@ -144,8 +144,8 @@ progress::-webkit-progress-value {
     display: -ms-grid;
     display: grid;
     grid-gap: 1em;
-    -ms-grid-columns: (minmax(18em, 1fr)) [auto-fit];
-    grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+    -ms-grid-columns: (minmax(20em, 1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   }
   .grid2 {
     margin: 0 auto;
@@ -183,11 +183,17 @@ progress::-webkit-progress-value {
 
 .card .card-image img {
   width: auto !important;
+  max-height: 350px;
 }
 
 .card-empl {
   max-height: 10vw;
   max-width: 100%;
+}
+
+.card .card-image .card-title {
+  color: black;
+  font-weight: bold;
 }
 
 .of-hidden {

@@ -28,6 +28,8 @@ export default class Body extends Component {
             <br />
             <Link to="/about">About</Link>
             <br />
+            <Link to="/doors">Doors</Link>
+            <br />
             <Link to="/404">404</Link>
           </div>
         </div>
