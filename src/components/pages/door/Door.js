@@ -1,17 +1,15 @@
 import React, { Fragment } from 'react';
-import { useStore } from 'easy-peasy';
-import { Link } from 'react-router-dom';
+import { useStoreState } from 'easy-peasy';
 
-export default function Door() {
-    const doors = useStore(state => state.doors);
+export default function Door(props) {
+  // const door = useStoreState(state => state.doors[props.match.params.door]); <h1>{door.title}</h1>
 
   return (
     <Fragment>
-      <h1>Silly me silly</h1>
-      <p>A silly page just for routing</p>
-      <Link to="/about">About</Link>
-      <br />
-      <Link to="/">Home</Link>
+      
+      <h1>{props.match.params.door}</h1>
+      
+      
     </Fragment>
   );
 }
