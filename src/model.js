@@ -1,10 +1,11 @@
-import { action, thunk } from 'easy-peasy';
+import { action, thunk, selector } from 'easy-peasy';
 const root = 'https://webquoin.com/catalog/door-selector/assets/json/';
 
 const doorsModel = {
   loading: false,
   loaded: false,
   items: {},
+  door: null,
   // Thunks
   fetchDoors: thunk(async (actions) => {
     const res = await fetch(root + 'doors.json');
@@ -15,7 +16,13 @@ const doorsModel = {
   setDoors: action((doors, items) => {
     doors.items = items;
     doors.loaded = true;
-  })
+  }),
+  // Selector
+  getDoor: selector([doors => doors.items], (stateResolvers, doorId) => { 
+    const items = stateResolvers[0];
+    console.log(items[doorId])
+    return items[doorId] || null;
+   }) 
 };
 
 const materialsModel = {

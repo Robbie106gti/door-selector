@@ -165,6 +165,31 @@ progress::-webkit-progress-value {
   }
 }
 
+.realbig {
+  width: 40vw;
+  height: 40vw;
+}
+
+.bg-white {
+  background-color: #fff !important;
+}
+
+#loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.tomanyOptions {
+  max-height: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .image20 {
   max-height: 20vw;
   max-width: 15vw;

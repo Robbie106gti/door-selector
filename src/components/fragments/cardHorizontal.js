@@ -10,22 +10,22 @@ const CardHorizontal = ({card}) => {
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <img src={ card.images.mainImage } alt={ card.title }/>
+        <Link to={'/doors/'+card.uid} ><img src={ card.images.mainImage } alt={ card.title }/></Link>
         </div>
         <div className="card-stacked">
           <span className="card-title">{card.title}</span>
             <div className="card-content">
-                <ul>
-                  {card.types.aka.map(name =>(<li>{name}</li>))}
+                <ul className="tomanyOptions">
+                  {card.types.aka.map(name =>(<li key={name}>{name}</li>))}
                   <li>{card.types.material}</li>
-                  <li>{card.edges.options.map(edge => (<span>{edge}, </span>))}</li>
+                  <li>{card.edges.options.map(edge => (<span key={edge}>{edge}, </span>))}</li>
                   {custom}
                   {lighthouse}
                   {cornerstone}
                 </ul>
             </div>
           <div className="card-action">
-            <Link to={'/door/'+card.uid}>{card.uid}</Link>
+            <Link to={'/doors/'+card.uid} >{card.uid}</Link>
           </div>
         </div>
       </div>
