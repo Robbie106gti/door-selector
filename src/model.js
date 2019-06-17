@@ -17,10 +17,10 @@ const doorsModel = {
     doors.items = items;
     doors.loaded = true;
   }),
-  // Selector
+  // Selectors
   getDoor: selector([doors => doors.items], (stateResolvers, doorId) => { 
     const items = stateResolvers[0];
-    console.log(items[doorId])
+    // console.log(items[doorId])
     return items[doorId] || null;
    }) 
 };
@@ -28,18 +28,32 @@ const doorsModel = {
 const materialsModel = {
   loading: false,
   loaded: false,
-  materials: {},
+  items: {},
+  bySection: {},
   // Thunks
   fetchMaterials: thunk(async actions => {
     const res = await fetch(root + 'materials.json');
     const mats = await res.json();
     actions.setMaterials(mats);
   }, { listenTo: 'initStore'}),
+  fetchBySection: thunk(async actions => {
+    const res = await fetch(root + 'mat-sections.json');
+    const mats = await res.json();
+    actions.setSections(mats);
+  }, { listenTo: 'initStore'}),
   // Actions
-  setMaterials: action((state, mats) => {
-    state.materials = mats;
-    state.loaded = true;
-  })
+  setMaterials: action((materials, mats) => {
+    materials.items = mats;
+    materials.loaded = true;
+  }),
+  setSections: action((materials, mats) => {
+    materials.bySection = mats;
+  }),
+  // Selectors
+  getSection: selector([materials => materials.bySection], (stateResolvers, sectionId) => { 
+    const items = stateResolvers[0];
+    return items[sectionId] || null;
+   }) 
 };
 
 const stainsModel = {

@@ -12,6 +12,8 @@ import Silly from './components/pages/Silly';
 import Notfound from './components/pages/Notfound';
 import Doors from './components/pages/door/Doors';
 import Door from './components/pages/door/Door';
+import Materials from './components/pages/materials/Materials';
+import Material from './components/pages/materials/Material';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import './App.css';
@@ -31,8 +33,8 @@ class App extends Component {
               <Route exact path="/" component={Doors} />
               <Route exact path="/doors" component={Doors} />
               <Route exact path="/doors/:door" component={Door} />
-              <Route exact path="/materials" component={Doors} />
-              <Route exact path="/materials/:material" component={Door} />
+              <Route exact path="/materials" component={Materials} />
+              <Route exact path="/materials/:material" component={Material} />
               <Route exact path="/about" component={About} />
               <Route exact path="/silly" component={Silly} />
               <Route exact path="/404" component={Notfound} />

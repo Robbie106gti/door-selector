@@ -6,7 +6,7 @@ const Card = ({card}) => {
     <Fragment>
       <div className="card">
         <div className="card-image">
-          <img src={ card.images.mainImage } alt={ card.title }/>
+          <img src={ card.image } alt={ card.title }/>
           <span className="card-title">{card.title}</span>
         </div>
       </div>
