@@ -1,7 +1,37 @@
-body {
+body,
+html,
+#root {
   background-color: rgba(96, 125, 139, 0.5);
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+@media only screen and (max-width: 992px) {
+  nav .brand-logo {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  nav .brand-logo {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  nav .brand-logo {
+    font-size: 1.8rem;
+  }
+}
+nav .brand-logo {
+  left: 0 !important;
+  -webkit-transform: translateX(0%) !important;
+  transform: translateX(0%) !important;
+}
+
+footer {
+  margin-bottom: -8rem;
 }
 
 .padding {
@@ -139,30 +169,58 @@ progress::-webkit-progress-value {
     -ms-grid-columns: (minmax(2em, 1fr)) [auto-fit];
     grid-template-columns: repeat(auto-fit, minmax(2em, 1fr));
   }
+
   .grid {
-    margin: 0 auto;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
     display: -ms-grid;
     display: grid;
-    grid-gap: 1em;
-    -ms-grid-columns: (minmax(20em, 1fr)) [auto-fit];
+    grid-gap: 1rem;
+    -ms-grid-columns: (minmax(20rem, 1fr)) [auto-fit];
     grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
   }
+
   .grid2 {
-    margin: 0 auto;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     display: -ms-grid;
     display: grid;
-    grid-gap: 1em;
-    -ms-grid-columns: (minmax(12em, 1fr)) [auto-fit];
+    grid-gap: 1rem;
+    -ms-grid-columns: (minmax(12rem, 1fr)) [auto-fit];
     grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
   }
-  .doorGrid {
+
+  .colorGrid {
     margin: 0 auto;
     display: -ms-grid;
     display: grid;
-    grid-gap: 1em;
+    grid-gap: 1rem;
+    -ms-grid-columns: (minmax(8rem, 1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
+  }
+
+  .doorGrid {
+    margin: 0.5rem;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
     -ms-grid-columns: 2;
     grid-template-columns: 1fr 1fr;
   }
+
+  .twoColumn {
+    margin: 0.5rem;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
+    -ms-grid-columns: 2;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(auto-fit, minmax(66vh, 1fr));
+  }
+}
+.carousel-height {
+  max-height: 99vh;
 }
 
 .realbig {
@@ -175,13 +233,18 @@ progress::-webkit-progress-value {
 }
 
 #loading {
+  position: fixed;
+  z-index: 999;
+  background-color: rgba(147, 180, 214, 0.85);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  align-content: center;
 }
 
 .tomanyOptions {
@@ -204,6 +267,11 @@ progress::-webkit-progress-value {
 .card20 {
   max-height: 20vw;
   overflow: hidden;
+}
+
+.card,
+.card-panel {
+  margin: 0 !important;
 }
 
 .card .card-image img {
@@ -340,13 +408,16 @@ progress::-webkit-progress-value {
   .page-break {
     page-break-after: always;
   }
+
   .break-page {
     page-break-before: always;
   }
+
   .no-print,
   .no-print * {
     display: none !important;
   }
+
   .card,
   .card-panel,
   .col {
@@ -355,7 +426,9 @@ progress::-webkit-progress-value {
     border: 0px solid #fff !important;
     background-color: rgba(255, 255, 255, 0) !important;
     box-shadow: 0px !important;
+    overflow: hidden;
   }
+
   .z-depth-1,
   nav,
   .card-panel,
@@ -369,28 +442,33 @@ progress::-webkit-progress-value {
   .collapsible {
     box-shadow: none !important;
   }
+
   .half {
     max-width: 50% !important;
     max-height: 50% !important;
     page-break-inside: avoid;
   }
+
   #topic {
     font-size: 16pt;
     margin: 0 !important;
     padding: 0 !important;
     border-style: hidden;
   }
+
   .collection-header,
   h5 {
     font-size: 12pt !important;
     margin: 0 !important;
     padding: 0.2rem !important;
   }
+
   .collection-item {
     font-size: 9pt;
     margin: 0 !important;
     padding: 0.2rem 0.2rem 0.2rem 0.5rem !important;
   }
+
   .timenuser {
     font-size: 7pt;
     margin: 0 !important;
@@ -405,6 +483,13 @@ nav {
   z-index: 4;
   position: relative;
 }
+
 .uTop {
   top: auto !important;
+}
+
+.footer-copyright {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

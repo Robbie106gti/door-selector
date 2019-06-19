@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react';
 import { useStoreState } from 'easy-peasy';
 import CardHorizontal from '../../fragments/cardHorizontal';
+import Loading from '../../fragments/loading';
 
 export default function Doors() {
+  const loaded = useStoreState(state => state.doors.loaded);
   const doors = useStoreState(state => state.doors.items);
   let array = Object.values(doors);
   array = array.sort((a, b) => compare(a, b));
@@ -16,7 +18,7 @@ export default function Doors() {
     return 0;
   }
 
-  return (
+  return loaded ? (
     <Fragment>
       <div className="row grid">
         {array.map(card => (
@@ -24,5 +26,7 @@ export default function Doors() {
         ))}
       </div>
     </Fragment>
-  );
+  ) : <Fragment>
+      <Loading />
+    </Fragment>;
 }
