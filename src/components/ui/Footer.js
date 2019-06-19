@@ -14,10 +14,10 @@ export default class Footer extends Component {
             <div className="col l3 s4">
               <h5 className="white-text">Site map</h5>
               <ul>
-                <li><a className="white-text" href="/">Home</a></li>
-                <li><a className="white-text" href="/about">About</a></li>
-                <li><a className="white-text" href="/materials">Materials</a></li>
-                <li><a className="white-text" href="/doors">Doors</a></li>
+                <li><a className="white-text" href="/catalog/door-selector/">Home</a></li>
+                <li><a className="white-text" href="/catalog/door-selector/about">About</a></li>
+                <li><a className="white-text" href="/catalog/door-selector/materials">Materials</a></li>
+                <li><a className="white-text" href="/catalog/door-selector/doors">Doors</a></li>
               </ul>
             </div>
             <div className="col l3 s4">
