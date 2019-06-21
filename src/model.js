@@ -48,38 +48,43 @@ const doorsModel = {
 const materialsModel = {
   loading: false,
   loaded: false,
-  items: {},
   bySection: {},
   // Thunks
-  fetchMaterials: thunk(async actions => {
-    const res = await fetch(root + 'materials.json');
-    const mats = await res.json();
-    actions.setMaterials(mats);
-  }, { listenTo: 'initStore' }),
   fetchBySection: thunk(async actions => {
     const res = await fetch(root + 'mat-sections.json');
     const mats = await res.json();
     actions.setSections(mats);
   }, { listenTo: 'initStore' }),
   // Actions
-  setMaterials: action((materials, mats) => {
-    materials.items = mats;
-    materials.loaded = true;
-  }),
   setSections: action((materials, mats) => {
     materials.bySection = mats;
+    materials.loaded = true;
   }),
   // Selectors
   getSection: selector([materials => materials.bySection], (stateResolvers, sectionId) => {
     const items = stateResolvers[0];
     return items[sectionId] || null;
+  }),
+  getMaterials: selector([materials => materials.bySection], (stateResolvers) => {
+    let items = stateResolvers[0];
+    items = Object.values(items);
+    items = items.map(item => item = {...item, category: 'materials'});
+    return items || null;
+  }),
+  getPaints: selector([materials => materials], (stateResolvers) => {
+    const materials = stateResolvers[0];
+    let item = [];
+    if(materials.loaded) {
+      item = Object.values(materials.bySection.painted.sub);
+    }
+    return item || null;
   })
 };
 
 const stainsModel = {
   loading: false,
   loaded: false,
-  stains: {},
+  items: {},
   // Thunks
   fetchStains: thunk(async actions => {
     const res = await fetch(root + 'stains.json');
@@ -87,16 +92,34 @@ const stainsModel = {
     actions.setStains(stains);
   }, { listenTo: 'initStore' }),
   // Actions
-  setStains: action((state, stains) => {
-    state.stains = stains;
-    state.loaded = true;
+  setStains: action((stains, items) => {
+    const array = Object.values(items);
+    let newItems = {};
+    array.forEach(arr => {
+      if (arr.image) {
+        newItems[arr.title.toLowerCase()] = { ...arr, firestore_uid: arr.uid, uid: arr.title.toLowerCase()};
+      }
+    });
+    stains.items = newItems;
+    stains.loaded = true;
+  }),
+  // Selectors
+  getStain: selector([stains => stains.items], (stateResolvers, stainId) => {
+    const items = stateResolvers[0];
+    console.log(items[stainId])
+    return items[stainId] || null;
+  }),
+  getStains: selector([stains => stains.items], (stateResolvers) => {
+    let items = stateResolvers[0];
+    items = Object.values(items);
+    return items || null;
   })
 };
 
 const edgesModel = {
   loading: false,
   loaded: false,
-  edges: {},
+  items: {},
   // Thunks
   fetchEdges: thunk(async actions => {
     const res = await fetch(root + 'edges.json');
@@ -104,9 +127,28 @@ const edgesModel = {
     actions.setEdges(edges);
   }, { listenTo: 'initStore' }),
   // Actions
-  setEdges: action((state, edges) => {
-    state.edges = edges;
-    state.loaded = true;
+  setEdges: action((edges, items) => {
+    const array = Object.values(items);
+    let newItems = {};
+    array.forEach(arr => {
+      if (arr.image) {
+        newItems[arr.title.toLowerCase()] = { ...arr, firestore_uid: arr.uid, uid: arr.title.toLowerCase()};
+      }
+    });
+    edges.items = newItems;
+    edges.loaded = true;
+  }),
+  // Selectors
+  getEdge: selector([edges => edges.items], (stateResolvers, edgeId) => {
+    let items = stateResolvers[0];
+    console.log(items[edgeId])
+    return items[edgeId] || null;
+  }),
+  getEdges: selector([edges => edges.items], (stateResolvers) => {
+    let items = stateResolvers[0];
+    items = Object.values(items);
+    items = items.map(item => item = {...item, category: 'edges'});
+    return items || null;
   })
 };
 

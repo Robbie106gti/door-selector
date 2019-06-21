@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import CardHorizontalMat from '../../fragments/cardHorizontal-mat';
 import Loading from '../../fragments/loading';
 
-const Materials = () => {
-  const materials = useStoreState(state => state.materials.getMaterials());
+const Edges = () => {
+  const edges = useStoreState(state => state.edges.getEdges());
 
-  return materials ? (
+  return edges ? (
     <Fragment>
     <div className="row">
       <div className="card-panel">
@@ -16,7 +16,7 @@ const Materials = () => {
       </div>
     </div>
       <div className="row grid">
-        {materials.map(mat => (<CardHorizontalMat card={mat} key={mat.title} />))}
+        {edges.map(mat => (<CardHorizontalMat card={mat} key={mat.title} />))}
       </div>
     </Fragment>
   ) : (
@@ -26,4 +26,4 @@ const Materials = () => {
     );
 }
 
-export default Materials;
+export default Edges;

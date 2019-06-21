@@ -6,9 +6,14 @@ export default function About() {
     <div className="card-panel">
       <h1>About Door Selector</h1>
       <p>Selector your door and material</p>
-      <Link to="/">Home</Link>
-      <Link to="/materials">Materials</Link>
-      <Link to="/doors">Doors</Link>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/materials">Materials</Link></li>
+        <li><Link to="/doors">Doors</Link></li>
+        <li><Link to="/stains">Stains</Link></li>
+        <li><Link to="/edges">Edges</Link></li>
+        <li><Link to="/colors">Colors</Link></li>
+      </ul>      
     </div>
   );
 }

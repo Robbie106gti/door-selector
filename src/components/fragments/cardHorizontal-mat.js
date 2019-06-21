@@ -5,11 +5,31 @@ const CardHorizontalMat = ({ card }) => {
   const cornerstone = card.lines.cornerstone ? 'Cornerstone' : '';
   const lighthouse = card.lines.lighthouse ? 'Lighthouse, ' : '';
   const custom = card.lines.custom ? 'Custom, ' : '';
+  let link = '/materials/';
+  switch (card.category) {
+    case 'Stain':
+      link = '/stains/';
+      break;
+      case 'Premium Stain':
+        link = '/stains/';
+        break;
+    case 'materials':
+      link = '/materials/';
+      break;
+    case 'edges':
+      link = '/edges/';
+      break;
+    default:
+      link = '/materials/';
+  }
+
   return (
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <Link to={'/materials/' + card.uid} ><img src={card.image} alt={card.title} /></Link>
+          <Link to={'/materials/' + card.uid}>
+            <img src={card.image} alt={card.title} />
+          </Link>
         </div>
         <div className="card-stacked">
           <span className="card-title">{card.title}</span>
@@ -21,12 +41,12 @@ const CardHorizontalMat = ({ card }) => {
             </ul>
           </div>
           <div className="card-action">
-            <Link to={'/materials/' + card.uid} >{card.title}</Link>
+            <Link to={link + card.uid}>{card.title}</Link>
           </div>
         </div>
       </div>
     </Fragment>
   );
-}
+};
 
 export default CardHorizontalMat;
