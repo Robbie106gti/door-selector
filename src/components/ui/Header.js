@@ -11,7 +11,7 @@ export default function Header(props) {
           <a href='./' className="brand-logo">
             <img
               className="imageLogo"
-              src="./assets/logos/logoNCs.png"
+              src="/assets/icons/logoNC.svg"
               alt="Nickels Cabinets"
             />
             <span className="headingLogo">
