@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 import CardHorizontalMat from '../../fragments/cardHorizontal-mat';
 import Loading from '../../fragments/loading';
 
-const Edges = () => {
+const Edges = (props) => {
+  const params = props.location.search;
   const edges = useStoreState(state => state.edges.getEdges());
 
   return edges ? (
     <Fragment>
-    <div className="row">
-      <div className="card-panel">
-        <Link to='doors' className="right"><span>{'<= to Doors'}</span></Link>
-          <h2>Color options</h2>
+      <div className="row">
+        <div className="card-panel">
+          <Link to={'doors' + params} className="right"><span>{'<= to Doors'}</span></Link>
+          <h2>Edge options</h2>
+        </div>
       </div>
-    </div>
       <div className="row grid">
-        {edges.map(mat => (<CardHorizontalMat card={mat} key={mat.title} />))}
+        {edges.map(mat => (<CardHorizontalMat card={{ mat, props }} key={mat.title} />))}
       </div>
     </Fragment>
   ) : (

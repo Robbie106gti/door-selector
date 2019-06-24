@@ -2,17 +2,18 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 const CardHorizontalMat = ({ card }) => {
-  const cornerstone = card.lines.cornerstone ? 'Cornerstone' : '';
-  const lighthouse = card.lines.lighthouse ? 'Lighthouse, ' : '';
-  const custom = card.lines.custom ? 'Custom, ' : '';
+  const params = card.props.location.search;
+  const cornerstone = card.mat.lines.cornerstone ? 'Cornerstone' : '';
+  const lighthouse = card.mat.lines.lighthouse ? 'Lighthouse, ' : '';
+  const custom = card.mat.lines.custom ? 'Custom, ' : '';
   let link = '/materials/';
-  switch (card.category) {
+  switch (card.mat.category) {
     case 'Stain':
       link = '/stains/';
       break;
-      case 'Premium Stain':
-        link = '/stains/';
-        break;
+    case 'Premium Stain':
+      link = '/stains/';
+      break;
     case 'materials':
       link = '/materials/';
       break;
@@ -27,12 +28,12 @@ const CardHorizontalMat = ({ card }) => {
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <Link to={'/materials/' + card.uid}>
-            <img src={card.image} alt={card.title} />
+          <Link to={'/materials/' + card.mat.uid + params}>
+            <img src={card.mat.image} alt={card.mat.title} />
           </Link>
         </div>
         <div className="card-stacked">
-          <span className="card-title">{card.title}</span>
+          <span className="card-title">{card.mat.title}</span>
           <div className="card-content">
             <ul className="tomanyOptions">
               {custom}
@@ -41,7 +42,7 @@ const CardHorizontalMat = ({ card }) => {
             </ul>
           </div>
           <div className="card-action">
-            <Link to={link + card.uid}>{card.title}</Link>
+            <Link to={link + card.mat.uid + params}>{card.mat.title}</Link>
           </div>
         </div>
       </div>

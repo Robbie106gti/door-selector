@@ -4,6 +4,7 @@ import Loading from '../../fragments/loading';
 import { Link } from 'react-router-dom';
 
 export default function Material(props) {
+  const params = props.location.search;
   const state = {
     name: props.match.params.material,
     loaded: false,
@@ -16,7 +17,7 @@ export default function Material(props) {
     <Fragment>
       <div className="twoColumn">
         <div className="card-panel">
-          <Link to='../edges' className="right"><span>{'<= Back'}</span></Link>
+          <Link to={'../edges' + params} className="right"><span>{'<= Back'}</span></Link>
           <h2>{state.item.title}</h2>
         </div>
         <div className="card-panel">

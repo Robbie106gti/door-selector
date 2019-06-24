@@ -13,10 +13,9 @@ export default class Footer extends Component {
               <ul>
                 <li><a className="white-text" href="/catalog/door-selector/">Home</a></li>
                 <li><a className="white-text" href="/catalog/door-selector/about">About</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/materials">Materials</a></li>
                 <li><a className="white-text" href="/catalog/door-selector/doors">Doors</a></li>
+                <li><a className="white-text" href="/catalog/door-selector/materials">Materials</a></li>
                 <li><a className="white-text" href="/catalog/door-selector/stains">Stains</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/edges">Edges</a></li>
               </ul>
             </div>
             <div className="col l3 s4">

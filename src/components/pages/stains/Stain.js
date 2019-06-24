@@ -4,6 +4,7 @@ import Loading from '../../fragments/loading';
 import { Link } from 'react-router-dom';
 
 export default function Stain(props) {
+  const params = props.location.search;
   const state = {
     name: props.match.params.material,
     item: {}
@@ -15,7 +16,7 @@ export default function Stain(props) {
     <Fragment>
       <div className="twoColumn">
         <div className="card-panel">
-          <Link to='../stains' className="right"><span>{'<= Back'}</span></Link>
+          <Link to={'../stains' + params} className="right"><span>{'<= Back'}</span></Link>
           <h2>{state.item.title}</h2>
         </div>
         <div className="card-panel">

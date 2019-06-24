@@ -45,7 +45,7 @@ class App extends Component {
             <Route exact path="/edges" component={Edges} />
             <Route exact path="/edges/:edge" component={Edge} />
             <Route exact path="/colors" component={Colors} />
-            <Route exact path="/colors/:color" component={Color} />
+            <Route exact path="/colors/:mat/:color" component={Color} />
             <Route exact path="/about" component={About} />
             <Route exact path="/404" component={Notfound} />
           </Switch>

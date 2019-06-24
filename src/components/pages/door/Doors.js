@@ -3,8 +3,7 @@ import { useStoreState } from 'easy-peasy';
 import CardHorizontal from '../../fragments/cardHorizontal';
 import Loading from '../../fragments/loading';
 
-export default function Doors() {
-  const loaded = useStoreState(state => state.doors.loaded);
+export default function Doors(props) {
   const doors = useStoreState(state => state.doors.items);
   let array = Object.values(doors);
   array = array.sort((a, b) => compare(a, b));
@@ -18,11 +17,11 @@ export default function Doors() {
     return 0;
   }
 
-  return loaded ? (
+  return array.length ? (
     <Fragment>
       <div className="row grid">
         {array.map(card => (
-          <CardHorizontal card={card} key={card.uid} />
+          <CardHorizontal card={{ door: card, props }} key={card.uid} />
         ))}
       </div>
     </Fragment>

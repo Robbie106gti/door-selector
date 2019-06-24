@@ -1,31 +1,32 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-const CardHorizontal = ({card}) => {
-  const cornerstone = card.lines.cornerstone ? 'Cornerstone' : '';
-  const lighthouse = card.lines.lighthouse ? 'Lighthouse, ' : '';
-  const custom = card.lines.custom ? 'Custom, ' : '';
+const CardHorizontal = ({ card }) => {
+  const params = card.props.location.search;
+  const cornerstone = card.door.lines.cornerstone ? 'Cornerstone' : '';
+  const lighthouse = card.door.lines.lighthouse ? 'Lighthouse, ' : '';
+  const custom = card.door.lines.custom ? 'Custom, ' : '';
 
   return (
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-        <Link to={'/doors/'+card.uid} ><img src={ card.images.mainImage } alt={ card.title }/></Link>
+          <Link to={'/doors/' + card.door.uid + params} ><img src={card.door.images.mainImage} alt={card.door.title} /></Link>
         </div>
         <div className="card-stacked">
-          <span className="card-title">{card.title}</span>
-            <div className="card-content">
-                <ul className="tomanyOptions">
-                  {card.types.aka.map(name =>(<li key={name}>{name}</li>))}
-                  <li>{card.types.material}</li>
-                  <li>{card.edges.options.map(edge => (<span key={edge}>{edge}, </span>))}</li>
-                  {custom}
-                  {lighthouse}
-                  {cornerstone}
-                </ul>
-            </div>
+          <span className="card-title">{card.door.title}</span>
+          <div className="card-content">
+            <ul className="tomanyOptions">
+              {card.door.types.aka.map(name => (<li key={name}>{name}</li>))}
+              <li>{card.door.types.material}</li>
+              <li>{card.door.edges.options.map(edge => (<span key={edge}>{edge}, </span>))}</li>
+              {custom}
+              {lighthouse}
+              {cornerstone}
+            </ul>
+          </div>
           <div className="card-action">
-            <Link to={'/doors/'+card.uid} >{card.uid}</Link>
+            <Link to={'/doors/' + card.door.uid + params} >{card.door.uid}</Link>
           </div>
         </div>
       </div>
