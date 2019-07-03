@@ -6,6 +6,7 @@ import { StoreProvider, createStore } from 'easy-peasy';
 
 import Header from './components/ui/Header';
 import Footer from './components/ui/Footer';
+import Breadcrums from './components/fragments/breadcrums';
 
 import About from './components/pages/About';
 import Home from './components/pages/Home';
@@ -33,6 +34,7 @@ class App extends Component {
     return (
       <StoreProvider store={store}>
         <Header title="Door selector" />
+        <Breadcrums />
         <Router basename={process.env.PUBLIC_URL}>
           <Switch>
             <Route exact path="/" component={Home} />

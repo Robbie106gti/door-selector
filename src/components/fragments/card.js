@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 
 const Card = ({ card }) => {
   let link = card.link ? card.link : '';
-  if (card.mat_name) {
-    if (card.mat_name === 'WOOD') {
-      link = '../colors';
-    }
-    if (card.mat_name === 'Painted') {
-      link = '../colors';
-    }
+  if (card.mat_name === 'WOOD' && !card.link) {
+    link = '../colors';
+  }
+
+  if (card.material && ['engineered', 'euro_materials', 'melamine', 'gloss', 'painted'].includes(card.material.toLowerCase())) {
+    link = '../colors/' + card.material.toLowerCase() + '/' + card.title;
   }
 
   return (

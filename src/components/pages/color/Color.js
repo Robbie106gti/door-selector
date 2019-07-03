@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { useStoreState } from 'easy-peasy';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 import Loading from '../../fragments/loading';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,10 @@ export default function Color(props) {
     loaded: false,
     item: null
   };
+  // console.log({ color, mat, params, state })
   state.item = useStoreState(state => state.getColor({ color, mat }));
+  useStoreActions(state => state.clickedColor({ color, mat }));
+
 
   return state.item ? (
     <Fragment>
@@ -23,6 +26,7 @@ export default function Color(props) {
           <h2>{state.name}</h2>
         </div>
         <div className="card-panel">
+          <img src={state.item.image} alt={state.item.title} className="responsive-img" />
         </div>
       </div>
     </Fragment>

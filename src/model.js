@@ -198,18 +198,42 @@ const model = {
     state.stains.loading = true;
     state.edges.loading = true;
   }, { listenTo: 'initStore' }),
+  clickedColor: action((state, clicked) => {
+    if (clicked.mat === 'stains') {
+      state.stains.color = clicked.color;
+      state.user.stain.color = clicked.color;
+    } else {
+      state.user.material.color = clicked.color;
+      state.user.material.category = clicked.mat;
+      state.materials.material = clicked.mat;
+      state.materials.color = clicked.color;
+    }
+  }),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
     let items = stateResolvers[0];
     const { color, mat } = obj[0];
     if (!items.materials.loaded || !items.stains.loaded) return null;
+    let samples = null;
     switch (mat) {
       case 'stains':
         const stain = color.toLowerCase();
         return items.stains.items[stain];
       case 'painted':
-        const paints = Object.values(items.materials.bySection.painted.sub);
-        return paints.filter(s => s.title === color)[0];
+        samples = Object.values(items.materials.bySection[mat].sub);
+        return samples.filter(s => s.title === color)[0];
+      case 'engineered':
+        samples = Object.values(items.materials.bySection[mat].sub);
+        return samples.filter(s => s.title === color)[0];
+      case 'melamine':
+        samples = Object.values(items.materials.bySection[mat].sub);
+        return samples.filter(s => s.title === color)[0];
+      case 'euro_materials':
+        samples = Object.values(items.materials.bySection[mat].sub);
+        return samples.filter(s => s.title === color)[0];
+      case 'gloss':
+        samples = Object.values(items.materials.bySection[mat].sub);
+        return samples.filter(s => s.title === color)[0];
       default:
         return null;
     }
