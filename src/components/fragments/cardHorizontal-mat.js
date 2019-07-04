@@ -28,7 +28,7 @@ const CardHorizontalMat = ({ card }) => {
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <Link to={'/materials/' + card.mat.uid + params}>
+          <Link to={link + card.mat.uid + params}>
             <img src={card.mat.image} alt={card.mat.title} />
           </Link>
         </div>

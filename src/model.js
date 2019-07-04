@@ -64,6 +64,27 @@ const doorsModel = {
     const items = stateResolvers[0];
     // console.log(items[doorId])
     return items[doorId] || null;
+  }),
+  getDoorByMat: selector([doors => doors.items], (stateResolvers, material) => {
+    const doors = Object.values(stateResolvers[0]);
+    if (material[0] === 'other') {
+      material = ['engineered', 'euro materials', 'gloss', 'metal']
+    } 
+    const doorByMat = doors.filter(door => {
+      const mats = [];
+      let bool = false;
+      door.versions.forEach(ver => mats.push(ver.types.material.toLowerCase()) );
+      if ( mats.includes(material)) {
+        bool = true;
+      }
+      material.forEach(mat => { 
+        if (mats.includes(mat)) {
+          bool = true;
+        }
+      });
+      return bool ? door : bool;
+    });
+    return doorByMat || null;
   })
 };
 

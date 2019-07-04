@@ -20,6 +20,7 @@ export default function Stain(props) {
           <h2>{state.item.title}</h2>
         </div>
         <div className="card-panel">
+          <img src={state.item.image} alt={state.item.title} className="responsive-img" />
         </div>
       </div>
     </Fragment>

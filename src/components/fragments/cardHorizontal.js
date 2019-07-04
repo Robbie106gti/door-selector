@@ -11,7 +11,7 @@ const CardHorizontal = ({ card }) => {
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <Link to={'/doors/' + card.door.uid + params} ><img src={card.door.images.mainImage} alt={card.door.title} /></Link>
+          <Link to={'/door/' + card.door.uid + params} ><img src={card.door.images.mainImage} alt={card.door.title} /></Link>
         </div>
         <div className="card-stacked">
           <span className="card-title">{card.door.title}</span>
@@ -26,7 +26,7 @@ const CardHorizontal = ({ card }) => {
             </ul>
           </div>
           <div className="card-action">
-            <Link to={'/doors/' + card.door.uid + params} >{card.door.uid}</Link>
+            <Link to={'/door/' + card.door.uid + params} >{card.door.uid}</Link>
           </div>
         </div>
       </div>

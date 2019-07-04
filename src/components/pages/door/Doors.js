@@ -4,7 +4,7 @@ import CardHorizontal from '../../fragments/cardHorizontal';
 import Loading from '../../fragments/loading';
 
 export default function Doors(props) {
-  const doors = useStoreState(state => state.doors.items);
+  const doors = useStoreState(state => state.doors.getDoorByMat(props.match.params.material));
   let array = Object.values(doors);
   array = array.sort((a, b) => compare(a, b));
   function compare(a, b) {
@@ -16,6 +16,7 @@ export default function Doors(props) {
     }
     return 0;
   }
+  console.log(props, array)
 
   return array.length ? (
     <Fragment>

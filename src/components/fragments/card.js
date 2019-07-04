@@ -7,8 +7,8 @@ const Card = ({ card }) => {
     link = '../colors';
   }
 
-  if (card.material && ['engineered', 'euro_materials', 'melamine', 'gloss', 'painted'].includes(card.material.toLowerCase())) {
-    link = '../colors/' + card.material.toLowerCase() + '/' + card.title;
+  if (card.material && ['engineered', 'euro materials', 'melamine', 'gloss', 'painted'].includes(card.material.toLowerCase())) {
+    link = '../colors/' + card.material.toLowerCase().replace(' ', '_') + '/' + card.title;
   }
 
   return (
