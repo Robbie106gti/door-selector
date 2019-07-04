@@ -4,14 +4,15 @@ import { Link } from 'react-router-dom';
 
 const Breadcrums = () => {
   const selection = useStoreState(state => state.user.selection);
+  const steps = selection.steps ? Object.values(selection.steps) : [];
 
-  return selection.length !== 0 ? (<nav>
+  return selection.step === 0 ? (null) : (<nav>
     <div className="nav-wrapper">
       <div className="col s12">
-        {selection.map(sel => (<Link to={sel.link} className="breadcrumb" key={sel.title}>{sel.title}</Link>))}
+        {steps.map(sel => (<Link to={sel.link} className="breadcrumb" key={sel.title}>{sel.title}</Link>))}
       </div>
     </div>
-  </nav>) : (null);
+  </nav>);
 }
 
 export default Breadcrums;

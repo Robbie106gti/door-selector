@@ -21,9 +21,11 @@ const userModel = {
     type: '',
     title: '',
     category: '',
-    color: ''
+    color: '',
+    main_material: ''
   },
   door: {
+    door_style: '',
     title: '',
     type: '',
     color: '',
@@ -38,7 +40,7 @@ const userModel = {
   edge: {
     title: ''
   },
-  selection: [],
+  selection: { step: 0, steps: { step1: ''}},
   // Actions
   userDoor: action(
     (user, clicked) => {
@@ -71,6 +73,7 @@ const doorsModel = {
   loaded: false,
   items: {},
   door: null,
+  door_style: '',
   // Thunks
   fetchDoors: thunk(
     async actions => {
@@ -187,6 +190,7 @@ const materialsModel = {
   loaded: false,
   bySection: {},
   material: '',
+  main_material: '',
   // Thunks
   fetchBySection: thunk(
     async actions => {
@@ -348,6 +352,34 @@ const model = {
       state.materials.color = clicked.color;
     }
   }),
+  clickedMainMaterial: action((state, clicked) => {
+    let mat = '';
+    switch(clicked) {
+      case 'painted': mat = 'Painted'; break;
+      case 'wood': mat = 'Wood'; break;
+      case 'others': mat = 'Other'; break;
+      default:
+        return;
+    }
+    state.user.material.main_material = clicked;
+    state.materials.main_material = clicked;
+    state.user.selection = {step: 1,steps: {step1: {title: mat,location: clicked, link: '/'}}};
+    }
+  ),
+  clickedMainDoorStyle: action((state, clicked) => {
+    let dstyle = '';
+    switch(clicked) {
+      case 'slab': dstyle = 'Slab Face Doors'; break;
+      case 'recessed': dstyle = 'Recessed Panel Doors'; break;
+      case 'raised': dstyle = 'Raised Panel Doors'; break;
+      default:
+        return;
+    }
+    state.user.door.door_style = clicked;
+    state.doors.door_style = clicked;
+    state.user.selection = {step: 2,steps: { ...state.user.selection.steps, step2: {title: dstyle, location: clicked, link: '/steps/'+state.user.selection.steps.step1.location}}};
+    }
+  ),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
     let items = stateResolvers[0];

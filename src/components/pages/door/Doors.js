@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
-import { useStoreState } from 'easy-peasy';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 import CardHorizontal from '../../fragments/cardHorizontal';
 import Loading from '../../fragments/loading';
 
 export default function Doors(props) {
   const doors = useStoreState(state => state.doors.getDoorFilterProps(props.match.params));
+  useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
+  useStoreActions(state => state.clickedMainDoorStyle(props.match.params.dstyle));
 
   return doors.length ? (
     <Fragment>
