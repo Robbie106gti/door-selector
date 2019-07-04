@@ -8,7 +8,7 @@ const Breadcrums = () => {
   return selection.length !== 0 ? (<nav>
     <div className="nav-wrapper">
       <div className="col s12">
-        {selection.map(sel => (<Link to={sel.link} className="breadcrumb">{sel.title}</Link>))}
+        {selection.map(sel => (<Link to={sel.link} className="breadcrumb" key={sel.title}>{sel.title}</Link>))}
       </div>
     </div>
   </nav>) : (null);

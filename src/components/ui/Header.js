@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React from 'react';
 
 export default function Header(props) {
@@ -8,7 +9,7 @@ export default function Header(props) {
       <nav>
         <div className="nav-wrapper brown darken-3">
           <div className="whiteLine" />
-          <a href='./' className="brand-logo">
+          <Link to='/' className="brand-logo">
             <img
               className="imageLogo"
               src="/catalog/door-selector/assets/icons/logoNC.svg"
@@ -17,7 +18,7 @@ export default function Header(props) {
             <span className="headingLogo">
               <i className="material-icons">book</i> {title}
             </span>
-          </a>
+          </Link>
         </div>
       </nav>
     </header>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 
 export default class Footer extends Component {
   render() {
@@ -11,11 +13,11 @@ export default class Footer extends Component {
             <div className="col l3 s4">
               <h5 className="white-text">Site map</h5>
               <ul>
-                <li><a className="white-text" href="/catalog/door-selector/">Home</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/about">About</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/doors">Doors</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/materials">Materials</a></li>
-                <li><a className="white-text" href="/catalog/door-selector/stains">Stains</a></li>
+                <li><Link className="white-text" to="/">Home</Link></li>
+                <li><Link className="white-text" to="/about">About</Link></li>
+                <li><Link className="white-text" to="/doors">Doors</Link></li>
+                <li><Link className="white-text" to="/materials">Materials</Link></li>
+                <li><Link className="white-text" to="/stains">Stains</Link></li>
               </ul>
             </div>
             <div className="col l3 s4">
