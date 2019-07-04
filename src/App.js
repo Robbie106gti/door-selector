@@ -13,6 +13,7 @@ import About from './components/pages/About';
 import Notfound from './components/pages/Notfound';
 
 import Doors from './components/pages/door/Doors';
+import AllDoors from './components/pages/door/AllDoors';
 import Door from './components/pages/door/Door';
 import Materials from './components/pages/materials/Materials';
 import Material from './components/pages/materials/Material';
@@ -40,7 +41,9 @@ class App extends Component {
             <Breadcrums />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/doors" component={Doors} />
+              <Route exact path="/steps/:mat" component={Home} />
+              <Route exact path="/steps/:mat/:dstyle/doors" component={Doors} />
+              <Route exact path="/doors" component={AllDoors} />
               <Route exact path="/doors/:material" component={Doors} />
               <Route exact path="/door/:door" component={Door} />
               <Route exact path="/materials" component={Materials} />

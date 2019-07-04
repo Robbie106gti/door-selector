@@ -1,5 +1,19 @@
 import { action, thunk, selector } from 'easy-peasy';
-const root = 'https://webquoin.com/catalog/door-selector/assets/json/';
+let apiUrl = window.location.hostname;
+switch (apiUrl) {
+  case 'localhost':
+    apiUrl = 'http://localhost:3000/assets/json/';
+    break;
+  case 'webquoin':
+    apiUrl = 'https://www.webquoin.com/catalog/door-selector/assets/json/';
+    break;
+  case 'testquoin':
+    apiUrl = 'http://www.testquoin.com/catalog/door-selector/assets/json/';
+    break;
+  default:
+    apiUrl = 'https://www.webquoin.com/catalog/door-selector/assets/json/';
+    break;
+}
 
 const userModel = {
   product_line: 'custom',
@@ -26,19 +40,31 @@ const userModel = {
   },
   selection: [],
   // Actions
-  userDoor: action((user, clicked) => {
-    user.door.title = clicked;
-  }, { listenTo: '@action.doors.clickedDoor' }),
-  userMaterial: action((user, clicked) => {
-    user.material.category = clicked;
-  }, { listenTo: '@action.materials.clickedMat' }),
-  userStain: action((user, clicked) => {
-    user.stain.color = clicked;
-  }, { listenTo: '@action.stains.clickedStain' }),
-  userEdge: action((user, clicked) => {
-    user.edge.title = clicked;
-  }, { listenTo: '@action.edges.clickedEdge' })
-}
+  userDoor: action(
+    (user, clicked) => {
+      user.door.title = clicked;
+    },
+    { listenTo: '@action.doors.clickedDoor' }
+  ),
+  userMaterial: action(
+    (user, clicked) => {
+      user.material.category = clicked;
+    },
+    { listenTo: '@action.materials.clickedMat' }
+  ),
+  userStain: action(
+    (user, clicked) => {
+      user.stain.color = clicked;
+    },
+    { listenTo: '@action.stains.clickedStain' }
+  ),
+  userEdge: action(
+    (user, clicked) => {
+      user.edge.title = clicked;
+    },
+    { listenTo: '@action.edges.clickedEdge' }
+  )
+};
 
 const doorsModel = {
   loading: false,
@@ -46,11 +72,14 @@ const doorsModel = {
   items: {},
   door: null,
   // Thunks
-  fetchDoors: thunk(async (actions) => {
-    const res = await fetch(root + 'doors.json');
-    const doors = await res.json();
-    actions.setDoors(doors);
-  }, { listenTo: 'initStore' }),
+  fetchDoors: thunk(
+    async actions => {
+      const res = await fetch(apiUrl + 'doors.json');
+      const doors = await res.json();
+      actions.setDoors(doors);
+    },
+    { listenTo: 'initStore' }
+  ),
   // Actions
   setDoors: action((doors, items) => {
     doors.items = items;
@@ -65,28 +94,93 @@ const doorsModel = {
     // console.log(items[doorId])
     return items[doorId] || null;
   }),
-  getDoorByMat: selector([doors => doors.items], (stateResolvers, material) => {
-    const doors = Object.values(stateResolvers[0]);
-    if (material[0] === 'other') {
-      material = ['engineered', 'euro materials', 'gloss', 'metal']
-    } 
-    const doorByMat = doors.filter(door => {
-      const mats = [];
-      let bool = false;
-      door.versions.forEach(ver => mats.push(ver.types.material.toLowerCase()) );
-      if ( mats.includes(material)) {
+  getDoorFilterProps: selector(
+    [doors => doors.items],
+    (stateResolvers, params) => {
+      const doors = Object.values(stateResolvers[0]);
+        const filters = params[0].material
+          ? [params[0].material]
+          : { dstyle: params[0].dstyle, mat: params[0].mat };
+        return FilterDoors(doors, filters);
+    }
+  ),
+  getAllDoors: selector(
+    [doors => doors.items],
+    (stateResolvers) => {
+      const doors = Object.values(stateResolvers[0]);
+      return CompareByTitle(doors);
+    })
+};
+
+function FilterDoors(doors, filters) {
+  const filteredDoors = filters.length
+    ? filterByMatDoors(doors, filters)
+    : filterBasicDoors(doors, filters);
+  const sortedDoors = CompareByTitle(filteredDoors);
+  return sortedDoors;
+}
+
+function filterByMatDoors(doors, material) {
+  if (material[0] === 'other') {
+    material = ['engineered', 'euro materials', 'gloss', 'metal'];
+  }
+  const doorByMat = doors.filter(door => {
+    const mats = [];
+    let bool = false;
+    door.versions.forEach(ver => mats.push(ver.types.material.toLowerCase()));
+    if (mats.includes(material)) {
+      bool = true;
+    }
+    material.forEach(mat => {
+      if (mats.includes(mat)) {
         bool = true;
       }
-      material.forEach(mat => { 
-        if (mats.includes(mat)) {
-          bool = true;
-        }
-      });
-      return bool ? door : bool;
     });
-    return doorByMat || null;
-  })
-};
+    return bool ? door : bool;
+  });
+  return doorByMat;
+}
+
+function filterBasicDoors(doors, filters) {
+  switch (filters.dstyle) {
+    case 'slab':
+      filters.dstyle = 'Slab Face Doors';
+      break;
+    case 'raised':
+      filters.dstyle = 'Raised Panel Doors';
+      break;
+    case 'recessed':
+      filters.dstyle = 'Recessed Panel Doors';
+      break;
+    default:
+      filters.dstyle = 'Slab Face Doors';
+      break;
+  }
+  const styleDoors = [];
+  doors.forEach(door => {
+    let bdoor =false;
+    door.versions.forEach(ver => {
+      if(ver.types.doorstyle === filters.dstyle) {
+        bdoor = true;
+      }
+    });
+    return bdoor ? styleDoors.push(door): bdoor;
+  });
+  const matDoors = filterByMatDoors(styleDoors, [filters.mat]);
+  return matDoors;
+}
+
+function CompareByTitle(items) {
+  return items.sort((a, b) => {
+    if (a.title < b.title) {
+      return -1;
+    }
+    if (a.title > b.title) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
 const materialsModel = {
   loading: false,
@@ -94,11 +188,14 @@ const materialsModel = {
   bySection: {},
   material: '',
   // Thunks
-  fetchBySection: thunk(async actions => {
-    const res = await fetch(root + 'mat-sections.json');
-    const mats = await res.json();
-    actions.setSections(mats);
-  }, { listenTo: 'initStore' }),
+  fetchBySection: thunk(
+    async actions => {
+      const res = await fetch(apiUrl + 'mat-sections.json');
+      const mats = await res.json();
+      actions.setSections(mats);
+    },
+    { listenTo: 'initStore' }
+  ),
   // Actions
   setSections: action((materials, mats) => {
     materials.bySection = mats;
@@ -108,17 +205,20 @@ const materialsModel = {
     materials.material = clicked;
   }),
   // Selectors
-  getSection: selector([materials => materials.bySection], (stateResolvers, sectionId) => {
-    const items = stateResolvers[0];
-    return items[sectionId] || null;
-  }),
-  getMaterials: selector([materials => materials.bySection], (stateResolvers) => {
+  getSection: selector(
+    [materials => materials.bySection],
+    (stateResolvers, sectionId) => {
+      const items = stateResolvers[0];
+      return items[sectionId] || null;
+    }
+  ),
+  getMaterials: selector([materials => materials.bySection], stateResolvers => {
     let items = stateResolvers[0];
     items = Object.values(items);
-    items = items.map(item => item = { ...item, category: 'materials' });
+    items = items.map(item => (item = { ...item, category: 'materials' }));
     return items || null;
   }),
-  getPaints: selector([materials => materials], (stateResolvers) => {
+  getPaints: selector([materials => materials], stateResolvers => {
     const materials = stateResolvers[0];
     let item = [];
     if (materials.loaded) {
@@ -134,18 +234,25 @@ const stainsModel = {
   items: {},
   stain: '',
   // Thunks
-  fetchStains: thunk(async actions => {
-    const res = await fetch(root + 'stains.json');
-    const stains = await res.json();
-    actions.setStains(stains);
-  }, { listenTo: 'initStore' }),
+  fetchStains: thunk(
+    async actions => {
+      const res = await fetch(apiUrl + 'stains.json');
+      const stains = await res.json();
+      actions.setStains(stains);
+    },
+    { listenTo: 'initStore' }
+  ),
   // Actions
   setStains: action((stains, items) => {
     const array = Object.values(items);
     let newItems = {};
     array.forEach(arr => {
       if (arr.image) {
-        newItems[arr.title.toLowerCase()] = { ...arr, firestore_uid: arr.uid, uid: arr.title.toLowerCase() };
+        newItems[arr.title.toLowerCase()] = {
+          ...arr,
+          firestore_uid: arr.uid,
+          uid: arr.title.toLowerCase()
+        };
       }
     });
     stains.items = newItems;
@@ -159,7 +266,7 @@ const stainsModel = {
     const items = stateResolvers[0];
     return items[stainId] || null;
   }),
-  getStains: selector([stains => stains.items], (stateResolvers) => {
+  getStains: selector([stains => stains.items], stateResolvers => {
     let items = stateResolvers[0];
     items = Object.values(items);
     return items || null;
@@ -172,18 +279,25 @@ const edgesModel = {
   items: {},
   edge: '',
   // Thunks
-  fetchEdges: thunk(async actions => {
-    const res = await fetch(root + 'edges.json');
-    const edges = await res.json();
-    actions.setEdges(edges);
-  }, { listenTo: 'initStore' }),
+  fetchEdges: thunk(
+    async actions => {
+      const res = await fetch(apiUrl + 'edges.json');
+      const edges = await res.json();
+      actions.setEdges(edges);
+    },
+    { listenTo: 'initStore' }
+  ),
   // Actions
   setEdges: action((edges, items) => {
     const array = Object.values(items);
     let newItems = {};
     array.forEach(arr => {
       if (arr.image) {
-        newItems[arr.title.toLowerCase()] = { ...arr, firestore_uid: arr.uid, uid: arr.title.toLowerCase() };
+        newItems[arr.title.toLowerCase()] = {
+          ...arr,
+          firestore_uid: arr.uid,
+          uid: arr.title.toLowerCase()
+        };
       }
     });
     edges.items = newItems;
@@ -198,10 +312,10 @@ const edgesModel = {
     // console.log(items[edgeId])
     return items[edgeId] || null;
   }),
-  getEdges: selector([edges => edges.items], (stateResolvers) => {
+  getEdges: selector([edges => edges.items], stateResolvers => {
     let items = stateResolvers[0];
     items = Object.values(items);
-    items = items.map(item => item = { ...item, category: 'edges' });
+    items = items.map(item => (item = { ...item, category: 'edges' }));
     return items || null;
   })
 };
@@ -212,13 +326,17 @@ const model = {
   stains: stainsModel,
   edges: edgesModel,
   user: userModel,
+  url: window.location.hostname,
   // Actions
-  onInit: action((state, action) => {
-    state.doors.loading = true;
-    state.materials.loading = true;
-    state.stains.loading = true;
-    state.edges.loading = true;
-  }, { listenTo: 'initStore' }),
+  onInit: action(
+    (state, action) => {
+      state.doors.loading = true;
+      state.materials.loading = true;
+      state.stains.loading = true;
+      state.edges.loading = true;
+    },
+    { listenTo: 'initStore' }
+  ),
   clickedColor: action((state, clicked) => {
     if (clicked.mat === 'stains') {
       state.stains.color = clicked.color;

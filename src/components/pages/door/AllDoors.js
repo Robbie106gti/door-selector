@@ -3,8 +3,8 @@ import { useStoreState } from 'easy-peasy';
 import CardHorizontal from '../../fragments/cardHorizontal';
 import Loading from '../../fragments/loading';
 
-export default function Doors(props) {
-  const doors = useStoreState(state => state.doors.getDoorFilterProps(props.match.params));
+export default function AllDoors(props) {
+  const doors = useStoreState(state => state.doors.getAllDoors());
 
   return doors.length ? (
     <Fragment>
