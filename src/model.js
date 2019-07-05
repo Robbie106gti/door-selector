@@ -40,7 +40,7 @@ const userModel = {
   edge: {
     title: ''
   },
-  selection: { step: 0, steps: { step1: ''}},
+  selection: { step: 0, steps: { step1: '' } },
   // Actions
   userDoor: action(
     (user, clicked) => {
@@ -101,18 +101,16 @@ const doorsModel = {
     [doors => doors.items],
     (stateResolvers, params) => {
       const doors = Object.values(stateResolvers[0]);
-        const filters = params[0].material
-          ? [params[0].material]
-          : { dstyle: params[0].dstyle, mat: params[0].mat };
-        return FilterDoors(doors, filters);
+      const filters = params[0].material
+        ? [params[0].material]
+        : { dstyle: params[0].dstyle, mat: params[0].mat };
+      return FilterDoors(doors, filters);
     }
   ),
-  getAllDoors: selector(
-    [doors => doors.items],
-    (stateResolvers) => {
-      const doors = Object.values(stateResolvers[0]);
-      return CompareByTitle(doors);
-    })
+  getAllDoors: selector([doors => doors.items], stateResolvers => {
+    const doors = Object.values(stateResolvers[0]);
+    return CompareByTitle(doors);
+  })
 };
 
 function FilterDoors(doors, filters) {
@@ -161,13 +159,13 @@ function filterBasicDoors(doors, filters) {
   }
   const styleDoors = [];
   doors.forEach(door => {
-    let bdoor =false;
+    let bdoor = false;
     door.versions.forEach(ver => {
-      if(ver.types.doorstyle === filters.dstyle) {
+      if (ver.types.doorstyle === filters.dstyle) {
         bdoor = true;
       }
     });
-    return bdoor ? styleDoors.push(door): bdoor;
+    return bdoor ? styleDoors.push(door) : bdoor;
   });
   const matDoors = filterByMatDoors(styleDoors, [filters.mat]);
   return matDoors;
@@ -331,6 +329,7 @@ const model = {
   edges: edgesModel,
   user: userModel,
   url: window.location.hostname,
+  loading: 0,
   // Actions
   onInit: action(
     (state, action) => {
@@ -354,39 +353,103 @@ const model = {
   }),
   clickedMainMaterial: action((state, clicked) => {
     let mat = '';
-    switch(clicked) {
-      case 'painted': mat = 'Painted'; break;
-      case 'wood': mat = 'Wood'; break;
-      case 'others': mat = 'Other'; break;
+    switch (clicked) {
+      case 'painted':
+        mat = 'Painted';
+        break;
+      case 'wood':
+        mat = 'Wood';
+        break;
+      case 'others':
+        mat = 'Other';
+        break;
       default:
         return;
     }
     state.user.material.main_material = clicked;
     state.materials.main_material = clicked;
-    state.user.selection = {step: 1,steps: {step1: {title: mat,location: clicked, link: '/'}}};
-    }
-  ),
+    state.user.selection = {
+      step: 1,
+      steps: { step1: { title: mat, location: clicked, link: '/' } }
+    };
+  }),
   clickedMainDoorStyle: action((state, clicked) => {
     let dstyle = '';
-    switch(clicked) {
-      case 'slab': dstyle = 'Slab Face Doors'; break;
-      case 'recessed': dstyle = 'Recessed Panel Doors'; break;
-      case 'raised': dstyle = 'Raised Panel Doors'; break;
+    switch (clicked) {
+      case 'slab':
+        dstyle = 'Slab Face Doors';
+        break;
+      case 'recessed':
+        dstyle = 'Recessed Panel Doors';
+        break;
+      case 'raised':
+        dstyle = 'Raised Panel Doors';
+        break;
       default:
         return;
     }
     state.user.door.door_style = clicked;
     state.doors.door_style = clicked;
-    state.user.selection = {step: 2,steps: { ...state.user.selection.steps, step2: {title: dstyle, location: clicked, link: '/steps/'+state.user.selection.steps.step1.location}}};
+    state.user.selection = {
+      step: 2,
+      steps: {
+        ...state.user.selection.steps,
+        step2: {
+          title: dstyle,
+          location: clicked,
+          link: '/steps/' + state.user.selection.steps.step1.location
+        }
+      }
+    };
+  }),
+  clickedMainDoor: action((state, params) => {
+    let { mat, dstyle, door } = params;
+    switch (dstyle) {
+      case 'slab':
+        dstyle = 'Slab Face Doors';
+        break;
+      case 'recessed':
+        dstyle = 'Recessed Panel Doors';
+        break;
+      case 'raised':
+        dstyle = 'Raised Panel Doors';
+        break;
+      default:
+          break;
     }
-  ),
-  clickedMainDoor: action((state, clicked) => {
-    state.user.selection = {step: 3,steps: { ...state.user.selection.steps, step3: {title: clicked, location: clicked, link: state.user.selection.steps.step2.link + '/' + state.user.selection.steps.step2.location + '/doors'}}};
+    switch (mat) {
+      case 'painted':
+        mat = 'Painted';
+        break;
+      case 'wood':
+        mat = 'Wood';
+        break;
+      case 'others':
+        mat = 'Other';
+        break;
+      default:
+          break;
     }
-  ),
+    state.user.selection = {
+      step: 3,
+      steps: {
+        step1: { title: mat, location: params.mat, link: '/' },
+        step2: {
+          title: dstyle,
+          location: params.dstyle,
+          link: '/steps/' + params.mat
+        },
+        step3: {
+          title: door,
+          location: params.door,
+          link: '/steps/' + params.mat + '/' + params.dstyle + '/doors'
+        }
+      }
+    };
+  }),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
-    let items = stateResolvers[0];
+    const items = stateResolvers[0];
     const { color, mat } = obj[0];
     if (!items.materials.loaded || !items.stains.loaded) return null;
     let samples = null;
@@ -412,6 +475,31 @@ const model = {
       default:
         return null;
     }
+  }),
+  getDoorMatLoaded: selector([state => state], (stateResolvers) => {
+    let bool = false;
+    console.log('Loaded?')
+    if (stateResolvers[0].materials.loaded && stateResolvers[0].doors.loaded) bool = true;
+    return bool;
+  }),
+  getDoorMaterial: selector([state => state], (stateResolvers, params) => {
+    console.log('busy busy');
+    if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
+    const store = stateResolvers[0];
+    const { door, mat } = params[0];
+    let samples = { material: [], door: {} };
+    switch (mat) {
+      case 'painted':
+        store.materials.bySection.painted ? samples.material = Object.values(store.materials.bySection.painted.sub) : samples = false;
+        break;
+      case 'wood':
+        samples.material = Object.values(store.materials.bySection.wood.sub);
+        break;
+      default:
+        return;
+    }
+    samples.door = store.doors.items[door];
+    return samples;
   })
 };
 

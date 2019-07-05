@@ -7,7 +7,6 @@ const CardHorizontal = ({ card }) => {
   const lighthouse = card.door.lines.lighthouse ? 'Lighthouse, ' : '';
   const custom = card.door.lines.custom ? 'Custom, ' : '';
   const link = card.page === 'allDoors' ? '/door/' : './';
-  console.log(card)
 
   return (
     <Fragment>
