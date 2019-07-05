@@ -12,7 +12,7 @@ export default function Doors(props) {
     <Fragment>
       <div className="row grid">
         {doors.map(card => (
-          <CardHorizontal card={{ door: card, props }} key={card.uid} />
+          <CardHorizontal card={{ door: card, props, page: 'filtered' }} key={card.uid} />
         ))}
       </div>
     </Fragment>

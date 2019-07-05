@@ -10,7 +10,7 @@ export default function AllDoors(props) {
     <Fragment>
       <div className="row grid">
         {doors.map(card => (
-          <CardHorizontal card={{ door: card, props }} key={card.uid} />
+          <CardHorizontal card={{ door: card, props , page: 'allDoors' }} key={card.uid} />
         ))}
       </div>
     </Fragment>

@@ -380,6 +380,10 @@ const model = {
     state.user.selection = {step: 2,steps: { ...state.user.selection.steps, step2: {title: dstyle, location: clicked, link: '/steps/'+state.user.selection.steps.step1.location}}};
     }
   ),
+  clickedMainDoor: action((state, clicked) => {
+    state.user.selection = {step: 3,steps: { ...state.user.selection.steps, step3: {title: clicked, location: clicked, link: state.user.selection.steps.step2.link + '/' + state.user.selection.steps.step2.location + '/doors'}}};
+    }
+  ),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
     let items = stateResolvers[0];

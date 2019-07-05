@@ -7,6 +7,11 @@ import { Link } from 'react-router-dom';
 
 export default function Door(props) {
   // useStoreDispatch({ type: 'setDoor', payload: props.match.params.door});
+  if (props.match.params.mat && props.match.params.dstyle) {
+    useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
+    useStoreActions(state => state.clickedMainDoorStyle(props.match.params.dstyle));
+    useStoreActions(state => state.clickedMainDoor(props.match.params.door));
+  }
   const params = props.location.search;
   const state = {
     name: props.match.params.door,

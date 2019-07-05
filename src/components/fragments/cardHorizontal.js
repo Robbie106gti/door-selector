@@ -6,12 +6,14 @@ const CardHorizontal = ({ card }) => {
   const cornerstone = card.door.lines.cornerstone ? 'Cornerstone' : '';
   const lighthouse = card.door.lines.lighthouse ? 'Lighthouse, ' : '';
   const custom = card.door.lines.custom ? 'Custom, ' : '';
+  const link = card.page === 'allDoors' ? '/door/' : './';
+  console.log(card)
 
   return (
     <Fragment>
       <div className="card horizontal">
         <div className="card-image">
-          <Link to={'/door/' + card.door.uid + params} ><img src={card.door.images.mainImage} alt={card.door.title} /></Link>
+          <Link to={link + card.door.uid + params} ><img src={card.door.images.mainImage} alt={card.door.title} /></Link>
         </div>
         <div className="card-stacked">
           <span className="card-title">{card.door.title}</span>
@@ -26,7 +28,7 @@ const CardHorizontal = ({ card }) => {
             </ul>
           </div>
           <div className="card-action">
-            <Link to={'/door/' + card.door.uid + params} >{card.door.uid}</Link>
+            <Link to={link + card.door.uid + params} >{card.door.uid}</Link>
           </div>
         </div>
       </div>

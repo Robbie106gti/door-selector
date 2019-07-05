@@ -43,6 +43,7 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/steps/:mat" component={Home} />
               <Route exact path="/steps/:mat/:dstyle/doors" component={Doors} />
+              <Route exact path="/steps/:mat/:dstyle/:door" component={Door} />
               <Route exact path="/doors" component={AllDoors} />
               <Route exact path="/doors/:material" component={Doors} />
               <Route exact path="/door/:door" component={Door} />
