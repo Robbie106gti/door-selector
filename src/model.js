@@ -360,7 +360,7 @@ const model = {
       case 'wood':
         mat = 'Wood';
         break;
-      case 'others':
+      case 'other':
         mat = 'Other';
         break;
       default:
@@ -424,7 +424,7 @@ const model = {
       case 'wood':
         mat = 'Wood';
         break;
-      case 'others':
+      case 'other':
         mat = 'Other';
         break;
       default:
@@ -478,12 +478,11 @@ const model = {
   }),
   getDoorMatLoaded: selector([state => state], (stateResolvers) => {
     let bool = false;
-    console.log('Loaded?')
     if (stateResolvers[0].materials.loaded && stateResolvers[0].doors.loaded) bool = true;
     return bool;
   }),
   getDoorMaterial: selector([state => state], (stateResolvers, params) => {
-    console.log('busy busy');
+    console.log(params)
     if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
     const store = stateResolvers[0];
     const { door, mat } = params[0];
@@ -496,9 +495,20 @@ const model = {
         samples.material = Object.values(store.materials.bySection.wood.sub);
         break;
       default:
-        return;
+        const all = {
+          engineered : Object.values(store.materials.bySection.engineered.sub),
+          melamine: Object.values(store.materials.bySection.melamine.sub),
+          euro: Object.values(store.materials.bySection.euro_materials.sub),
+          gloss: Object.values(store.materials.bySection.gloss.sub)
+        }
+        all.engineered.forEach(en => samples.material.push(en));
+        all.melamine.forEach(en => samples.material.push(en));
+        all.euro.forEach(en => samples.material.push(en));
+        all.gloss.forEach(en => samples.material.push(en));
+        break;
     }
     samples.door = store.doors.items[door];
+    console.log(samples)
     return samples;
   })
 };

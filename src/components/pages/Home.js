@@ -1,5 +1,6 @@
 import React from 'react';
 import CardHome from '../fragments/cardHome';
+import { useStoreActions } from 'easy-peasy'
 
 export default function Home(props) {
   const matChoice = [
@@ -48,6 +49,10 @@ export default function Home(props) {
   let array = [];
   props.match.params.mat ? dstyleChoice.forEach(route => route.mats.includes(props.match.params.mat) ? array.push({...route, props}) : null) : array = matChoice;
   
+  if(props.match.params.mat){
+    console.log(props)
+    useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
+  }
 
   return (
     <div className="grid">

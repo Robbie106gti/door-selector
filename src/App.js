@@ -15,7 +15,8 @@ import Notfound from './components/pages/Notfound';
 import Doors from './components/pages/door/Doors';
 import AllDoors from './components/pages/door/AllDoors';
 import Door from './components/pages/door/Door';
-import StepDoor from './components/pages/door/StepDoor';
+import Step3Door from './components/pages/door/Step3Door';
+import Step4Door from './components/pages/door/Step4Door';
 import Materials from './components/pages/materials/Materials';
 import Material from './components/pages/materials/Material';
 import Stains from './components/pages/stains/Stains';
@@ -44,7 +45,8 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/steps/:mat" component={Home} />
               <Route exact path="/steps/:mat/:dstyle/doors" component={Doors} />
-              <Route exact path="/steps/:mat/:dstyle/:door" component={StepDoor} />
+              <Route exact path="/steps/:mat/:dstyle/:door" component={Step3Door} />
+              <Route exact path="/steps/:mat/:dstyle/:door/:color" component={Step4Door} />
               <Route exact path="/doors" component={AllDoors} />
               <Route exact path="/doors/:material" component={Doors} />
               <Route exact path="/door/:door" component={Door} />

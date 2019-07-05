@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useStoreActions } from 'easy-peasy';
 
 function CardHome(card) {
     card = card.card;
     let link = '/steps/' + card.link;
     if (card.props && card.props.match.params.mat) {
-        link = '/steps/' + card.props.match.params.mat + '/' + card.link + '/doors';
-        useStoreActions(state => state.clickedMainMaterial(card.props.match.params.mat));
+      link = '/steps/' + card.props.match.params.mat + '/' + card.link + '/doors';
     } 
     return (
       <div className="card of-hidden">
