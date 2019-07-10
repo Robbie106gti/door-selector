@@ -415,7 +415,7 @@ const model = {
         dstyle = 'Raised Panel Doors';
         break;
       default:
-          break;
+        break;
     }
     switch (mat) {
       case 'painted':
@@ -428,7 +428,7 @@ const model = {
         mat = 'Other';
         break;
       default:
-          break;
+        break;
     }
     state.user.selection = {
       step: 3,
@@ -496,7 +496,7 @@ const model = {
         break;
       default:
         const all = {
-          engineered : Object.values(store.materials.bySection.engineered.sub),
+          engineered: Object.values(store.materials.bySection.engineered.sub),
           melamine: Object.values(store.materials.bySection.melamine.sub),
           euro: Object.values(store.materials.bySection.euro_materials.sub),
           gloss: Object.values(store.materials.bySection.gloss.sub)
@@ -509,6 +509,22 @@ const model = {
     }
     samples.door = store.doors.items[door];
     console.log(samples)
+    return samples;
+  }),
+  getDoorWoodStains: selector([state => state], (stateResolvers, params) => {
+    console.log(params)
+    if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
+    const store = stateResolvers[0];
+    const { door, color } = params[0];
+    let samples = { ready: false, material: {}, door: {}, stains: [] };
+    samples.door = store.doors.items[door];
+    samples.stains = Object.values(store.stains.items);
+    const array = Object.values(store.materials.bySection.wood.sub);
+    array.map(m => {
+      if (m.title === color) {
+        samples.material = m;
+      }
+    });
     return samples;
   })
 };
