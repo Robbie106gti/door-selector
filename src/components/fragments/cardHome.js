@@ -7,6 +7,7 @@ function CardHome(card) {
     if (card.props && card.props.match.params.mat) {
       link = '/steps/' + card.props.match.params.mat + '/' + card.link + '/doors';
     } 
+
     return (
       <div className="card of-hidden">
           <div className="card-image">

@@ -1,4 +1,6 @@
 import { action, thunk, selector } from 'easy-peasy';
+import uuid from 'uuid';
+
 let apiUrl = window.location.hostname;
 switch (apiUrl) {
   case 'localhost':
@@ -40,6 +42,20 @@ const userModel = {
   edge: {
     title: ''
   },
+  toasts: {
+    '123': {
+      text: 'Hi, welcome to the Door-selector', 
+      key: '123', 
+      new: true,
+      reading: false
+    },
+    'door': {
+      text: '', 
+      key: 'door', 
+      new: false,
+      reading: false
+    }
+  },
   selection: { step: 0, steps: { step1: '' } },
   // Actions
   userDoor: action(
@@ -65,7 +81,44 @@ const userModel = {
       user.edge.title = clicked;
     },
     { listenTo: '@action.edges.clickedEdge' }
+  ),
+  toastReading: action(
+    (user, clicked) => {
+        user.toasts[clicked].new = false;
+        user.toasts[clicked].reading = true;
+    }
+  ),
+  toastRead: action(
+    (user, clicked) => {
+        user.toasts[clicked].reading = false;
+    }
+  ),
+  addToast: action((user, text) => {
+    const toast = {
+      key: uuid.v4(),
+      text: text, 
+      new: true,
+      reading: false
+    }
+    user.toasts[toast.key] = toast;
+  }),
+  // Thunks
+  toastDown: thunk(
+    async (actions, clicked) =>  {
+      await setTimeout(()=> {
+        actions.toastRead(clicked)
+      }, 4000);
+    }, { listenTo: '@action.user.toastReading'}
+  ),
+  // Selectors
+  getToasts: selector(
+    [user => user.toasts],
+    (stateResolvers) => {
+      const items = Object.values(stateResolvers[0]) || false;
+      return items;
+    }
   )
+
 };
 
 const doorsModel = {
@@ -366,6 +419,13 @@ const model = {
       default:
         return;
     }
+      const toast = {
+        key: 'material',
+        text: 'Selected ' + mat, 
+        new: true,
+        reading: false
+      }
+      state.user.toasts[toast.key] = toast;
     state.user.material.main_material = clicked;
     state.materials.main_material = clicked;
     state.user.selection = {
@@ -388,6 +448,13 @@ const model = {
       default:
         return;
     }
+      const toast = {
+        key: 'doorstyle',
+        text: 'Selected the ' + dstyle, 
+        new: true,
+        reading: false
+      }
+      state.user.toasts[toast.key] = toast;
     state.user.door.door_style = clicked;
     state.doors.door_style = clicked;
     state.user.selection = {
@@ -403,6 +470,7 @@ const model = {
     };
   }),
   clickedMainDoor: action((state, params) => {
+    console.log(params)
     let { mat, dstyle, door } = params;
     switch (dstyle) {
       case 'slab':
@@ -430,6 +498,13 @@ const model = {
       default:
         break;
     }
+    const toast = {
+      key: 'door',
+      text: 'Selected the ' + door + ' door which is a ' + dstyle + ' in material ' + mat, 
+      new: true,
+      reading: false
+    }
+    state.user.toasts[toast.key] = toast;
     state.user.selection = {
       step: 3,
       steps: {
@@ -478,7 +553,7 @@ const model = {
   }),
   getDoorMatLoaded: selector([state => state], (stateResolvers) => {
     let bool = false;
-    if (stateResolvers[0].materials.loaded && stateResolvers[0].doors.loaded) bool = true;
+    if (stateResolvers[0].materials.loaded && stateResolvers[0].doors.loaded) { bool = true };
     return bool;
   }),
   getDoorMaterial: selector([state => state], (stateResolvers, params) => {
@@ -489,7 +564,7 @@ const model = {
     let samples = { material: [], door: {} };
     switch (mat) {
       case 'painted':
-        store.materials.bySection.painted ? samples.material = Object.values(store.materials.bySection.painted.sub) : samples = false;
+        samples.material = Object.values(store.materials.bySection.painted.sub);
         break;
       case 'wood':
         samples.material = Object.values(store.materials.bySection.wood.sub);
@@ -516,6 +591,7 @@ const model = {
     if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
     const store = stateResolvers[0];
     const { door, color } = params[0];
+
     let samples = { ready: false, material: {}, door: {}, stains: [] };
     samples.door = store.doors.items[door];
     samples.stains = Object.values(store.stains.items);

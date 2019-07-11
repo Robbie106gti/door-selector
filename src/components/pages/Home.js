@@ -50,7 +50,6 @@ export default function Home(props) {
   props.match.params.mat ? dstyleChoice.forEach(route => route.mats.includes(props.match.params.mat) ? array.push({...route, props}) : null) : array = matChoice;
   
   if(props.match.params.mat){
-    console.log(props)
     useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
   }
 

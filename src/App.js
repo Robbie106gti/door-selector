@@ -28,6 +28,7 @@ import Edge from './components/pages/edges/Edge';
 
 import 'materialize-css/dist/css/materialize.min.css';
 import './App.css';
+import Toasts from './components/ui/toasts';
 
 const store = createStore(model);
 store.dispatch({
@@ -64,6 +65,7 @@ class App extends Component {
             </Switch>
           </div>
           <Footer />   
+          <Toasts />
         </StoreProvider>
       </Router>
     );
