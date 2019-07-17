@@ -50,7 +50,7 @@ export default function Home(props) {
   props.match.params.mat ? dstyleChoice.forEach(route => route.mats.includes(props.match.params.mat) ? array.push({...route, props}) : null) : array = matChoice;
   
   if(props.match.params.mat){
-    useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
+    // useStoreActions(state => state.clickedMainMaterial(props.match.params.mat));
   }
 
   return (
@@ -62,3 +62,28 @@ export default function Home(props) {
     </div>
   );
 }
+
+const icons = [
+  {
+    icon: 'insert_chart'
+  },
+  {
+    icon: 'inbox'
+  },
+  {
+    marked_icon: 'bookmark',
+    unmarked_icon: 'bookmark_border'
+  },
+  {
+    icon: 'free_breakfast'
+  },
+  {
+    icon: 'help'
+  },
+  {
+    icon: 'home'
+  },
+  {
+    icon: 'info'
+  }
+];

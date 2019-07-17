@@ -1,8 +1,11 @@
 import React from 'react';
-import { useStoreState } from 'easy-peasy';
+import { useStoreState, useStoreActions } from 'easy-peasy';
 import { Link } from 'react-router-dom';
 
-const Breadcrums = () => {
+const Breadcrums = (props) => {
+  console.log(props);
+  // useStoreActions(state => state.step1Effect(props.match.params.mat));
+
   const selection = useStoreState(state => state.user.selection);
   const steps = selection.steps ? Object.values(selection.steps) : [];
 

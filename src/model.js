@@ -522,6 +522,19 @@ const model = {
       }
     };
   }),
+  // Thunk 
+    // stain: "Cinnamon"
+    // color: "Alder"
+    // door: "Alpha"
+    // dstyle: "slab"
+    // mat: "wood"
+  steps: thunk(async (state, payload) => {
+    // should check if step one needs updating, and dispatch action or just let it go (Material)
+    console.log(state.user.selection);
+    if (state.user.selection.steps.step1 === payload.mat) {
+      state.dispatch.clickedMainMaterial(payload.mat);
+    }
+  }),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
     const items = stateResolvers[0];
@@ -557,7 +570,6 @@ const model = {
     return bool;
   }),
   getDoorMaterial: selector([state => state], (stateResolvers, params) => {
-    console.log(params)
     if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
     const store = stateResolvers[0];
     const { door, mat } = params[0];
@@ -583,7 +595,6 @@ const model = {
         break;
     }
     samples.door = store.doors.items[door];
-    console.log(samples)
     return samples;
   }),
   getDoorWoodStains: selector([state => state], (stateResolvers, params) => {
