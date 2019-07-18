@@ -2,12 +2,11 @@ import React from 'react';
 import { useStoreState, useStoreActions } from 'easy-peasy';
 import { Link } from 'react-router-dom';
 
-const Breadcrums = (props) => {
-  console.log(props);
-  // useStoreActions(state => state.step1Effect(props.match.params.mat));
-
+const Breadcrums = (crums) => {
+  crums = crums.crums;
   const selection = useStoreState(state => state.user.selection);
   const steps = selection.steps ? Object.values(selection.steps) : [];
+  useStoreActions(state => state.steps({ params: crums.match.params, selection }));
 
   return selection.step === 0 ? (null) : (<nav>
     <div className="nav-wrapper">

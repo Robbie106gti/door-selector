@@ -6,7 +6,6 @@ import { StoreProvider, createStore } from 'easy-peasy';
 
 import Footer from './components/ui/Footer';
 import Header from './components/ui/Header';
-import Breadcrums from './components/fragments/breadcrums';
 
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -41,7 +40,6 @@ class App extends Component {
         <StoreProvider store={store}>
           <Header title="Door selector" />
           <div className="container">
-            <Breadcrums />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/steps/:mat" component={Home} />
@@ -65,7 +63,7 @@ class App extends Component {
               <Route component={Notfound} />
             </Switch>
           </div>
-          <Footer />   
+          <Footer />
           <Toasts />
         </StoreProvider>
       </Router>

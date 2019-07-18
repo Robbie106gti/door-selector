@@ -17,6 +17,91 @@ switch (apiUrl) {
     break;
 }
 
+const uiuxModel = {
+  matChoice: {
+    'painted': {
+      title: 'Painted',
+      link: 'painted',
+      chips: ['Paints'],
+      image: 'https://webquoin.com/catalog/build/assets/samples/quite%20time.jpg'
+    },
+    'wood': {
+      title: 'Wood',
+      link: 'wood',
+      chips: ['Alder', 'White Oak', 'Black Walnut'],
+      image: 'https://webquoin.com/catalog/doorstyler/images/Material/walnut.jpg'
+    },
+    'other': {
+      title: 'Others',
+      link: 'other',
+      chips: ['Melamine', 'Gloss', 'Metal', 'Euro Materials'],
+      image: 'https://firebasestorage.googleapis.com/v0/b/modcon-2b3c7.appspot.com/o/uploads%2Fmaterials%2FTM-01.jpg?alt=media&token=cffb2dc4-b621-4406-b172-b03f4e46839a'
+    }
+  },
+  dstyleChoice: {
+    'slab': {
+      title: 'Slab Face Doors',
+      link: 'slab',
+      chips: ['Slab'],
+      mats: ['painted', 'wood', 'other'],
+      image: 'https://webquoin.com/catalog/images/Doors/Webquoin/Alpha.gif'
+    },
+    'recessed': {
+      title: 'Recessed Panel Doors',
+      link: 'recessed',
+      chips: ['Alder', 'White Oak', 'Black Walnut'],
+      mats: ['painted', 'wood', 'other'],
+      image: 'https://webquoin.com/catalog/images/doors/vista.jpg'
+    },
+    'raised': {
+      title: 'Raised Panel Doors',
+      link: 'raised',
+      chips: ['Melamine', 'Gloss', 'Metal', 'Euro Materials'],
+      mats: ['painted', 'wood'],
+      image: 'https://webquoin.com/catalog/images/Doors/Webquoin/Cambridge.png'
+    }
+  },
+  icons: [
+    {
+      icon: 'insert_chart'
+    },
+    {
+      icon: 'inbox'
+    },
+    {
+      marked_icon: 'bookmark',
+      unmarked_icon: 'bookmark_border'
+    },
+    {
+      icon: 'free_breakfast'
+    },
+    {
+      icon: 'help'
+    },
+    {
+      icon: 'home'
+    },
+    {
+      icon: 'info'
+    }
+  ],
+  // Selectors
+  getMats: selector(
+    [uiux => uiux.matChoice],
+    (stateResolvers) => {
+      const items = Object.values(stateResolvers[0]) || [];
+      return items;
+    }
+  ),
+  getDstyle: selector(
+    [uiux => uiux.dstyleChoice],
+    (stateResolvers) => {
+      const items = Object.values(stateResolvers[0]) || [];
+      return items;
+    }
+  )
+}
+
 const userModel = {
   product_line: 'custom',
   material: {
@@ -44,14 +129,14 @@ const userModel = {
   },
   toasts: {
     '123': {
-      text: 'Hi, welcome to the Door-selector', 
-      key: '123', 
+      text: 'Hi, welcome to the Door-selector',
+      key: '123',
       new: true,
       reading: false
     },
     'door': {
-      text: '', 
-      key: 'door', 
+      text: '',
+      key: 'door',
       new: false,
       reading: false
     }
@@ -84,19 +169,19 @@ const userModel = {
   ),
   toastReading: action(
     (user, clicked) => {
-        user.toasts[clicked].new = false;
-        user.toasts[clicked].reading = true;
+      user.toasts[clicked].new = false;
+      user.toasts[clicked].reading = true;
     }
   ),
   toastRead: action(
     (user, clicked) => {
-        user.toasts[clicked].reading = false;
+      user.toasts[clicked].reading = false;
     }
   ),
   addToast: action((user, text) => {
     const toast = {
       key: uuid.v4(),
-      text: text, 
+      text: text,
       new: true,
       reading: false
     }
@@ -104,11 +189,11 @@ const userModel = {
   }),
   // Thunks
   toastDown: thunk(
-    async (actions, clicked) =>  {
-      await setTimeout(()=> {
+    async (actions, clicked) => {
+      await setTimeout(() => {
         actions.toastRead(clicked)
       }, 4000);
-    }, { listenTo: '@action.user.toastReading'}
+    }, { listenTo: '@action.user.toastReading' }
   ),
   // Selectors
   getToasts: selector(
@@ -382,6 +467,7 @@ const model = {
   edges: edgesModel,
   user: userModel,
   url: window.location.hostname,
+  uiux: uiuxModel,
   loading: 0,
   // Actions
   onInit: action(
@@ -404,136 +490,131 @@ const model = {
       state.materials.color = clicked.color;
     }
   }),
-  clickedMainMaterial: action((state, clicked) => {
-    let mat = '';
-    switch (clicked) {
-      case 'painted':
-        mat = 'Painted';
-        break;
-      case 'wood':
-        mat = 'Wood';
-        break;
-      case 'other':
-        mat = 'Other';
-        break;
-      default:
-        return;
-    }
-      const toast = {
-        key: 'material',
-        text: 'Selected ' + mat, 
-        new: true,
-        reading: false
-      }
-      state.user.toasts[toast.key] = toast;
-    state.user.material.main_material = clicked;
-    state.materials.main_material = clicked;
-    state.user.selection = {
-      step: 1,
-      steps: { step1: { title: mat, location: clicked, link: '/' } }
+  step1: action((state, update) => {
+    const item = state.uiux.matChoice[update.id];
+    const step = {
+      title: item.title,
+      location: update.id,
+      link: '/'
     };
-  }),
-  clickedMainDoorStyle: action((state, clicked) => {
-    let dstyle = '';
-    switch (clicked) {
-      case 'slab':
-        dstyle = 'Slab Face Doors';
-        break;
-      case 'recessed':
-        dstyle = 'Recessed Panel Doors';
-        break;
-      case 'raised':
-        dstyle = 'Raised Panel Doors';
-        break;
-      default:
-        return;
-    }
-      const toast = {
-        key: 'doorstyle',
-        text: 'Selected the ' + dstyle, 
-        new: true,
-        reading: false
-      }
-      state.user.toasts[toast.key] = toast;
-    state.user.door.door_style = clicked;
-    state.doors.door_style = clicked;
-    state.user.selection = {
-      step: 2,
-      steps: {
-        ...state.user.selection.steps,
-        step2: {
-          title: dstyle,
-          location: clicked,
-          link: '/steps/' + state.user.selection.steps.step1.location
-        }
-      }
-    };
-  }),
-  clickedMainDoor: action((state, params) => {
-    console.log(params)
-    let { mat, dstyle, door } = params;
-    switch (dstyle) {
-      case 'slab':
-        dstyle = 'Slab Face Doors';
-        break;
-      case 'recessed':
-        dstyle = 'Recessed Panel Doors';
-        break;
-      case 'raised':
-        dstyle = 'Raised Panel Doors';
-        break;
-      default:
-        break;
-    }
-    switch (mat) {
-      case 'painted':
-        mat = 'Painted';
-        break;
-      case 'wood':
-        mat = 'Wood';
-        break;
-      case 'other':
-        mat = 'Other';
-        break;
-      default:
-        break;
-    }
+    state.user.selection.steps[update.step] = step;
+    state.user.material.type = update.id;
+    state.materials.main_material = update.id;
+    // send out toast
     const toast = {
-      key: 'door',
-      text: 'Selected the ' + door + ' door which is a ' + dstyle + ' in material ' + mat, 
+      key: 'material',
+      text: 'Selected ' + item.title,
       new: true,
       reading: false
     }
     state.user.toasts[toast.key] = toast;
-    state.user.selection = {
-      step: 3,
-      steps: {
-        step1: { title: mat, location: params.mat, link: '/' },
-        step2: {
-          title: dstyle,
-          location: params.dstyle,
-          link: '/steps/' + params.mat
-        },
-        step3: {
-          title: door,
-          location: params.door,
-          link: '/steps/' + params.mat + '/' + params.dstyle + '/doors'
-        }
-      }
-    };
   }),
-  // Thunk 
-    // stain: "Cinnamon"
-    // color: "Alder"
-    // door: "Alpha"
-    // dstyle: "slab"
-    // mat: "wood"
-  steps: thunk(async (state, payload) => {
-    // should check if step one needs updating, and dispatch action or just let it go (Material)
-    console.log(state.user.selection);
-    if (state.user.selection.steps.step1 === payload.mat) {
-      state.dispatch.clickedMainMaterial(payload.mat);
+  step2: action((state, update) => {
+    const item = state.uiux.dstyleChoice[update.id];
+    const step = {
+      title: item.title,
+      location: update.id,
+      link: '/steps/' + update.params.mat
+    };
+    state.user.selection.steps[update.step] = step;
+    state.user.door.door_style = update.id;
+    state.doors.door_style = update.id;
+    // send out toast
+    const toast = {
+      key: 'doorstyle',
+      text: 'Selected ' + item.title,
+      new: true,
+      reading: false
     }
+    state.user.toasts[toast.key] = toast;
+  }),
+  step3: action((state, update) => {
+    const item = state.doors.items[update.id];
+    const step = {
+      title: item.title,
+      location: update.id,
+      link: '/steps/' + update.params.mat + '/' + update.params.dstyle + '/doors'
+    };
+    state.user.selection.steps[update.step] = step;
+    state.user.door.title = update.id;
+    state.doors.door_style = update.id;
+    // send out toast
+    const toast = {
+      key: 'door',
+      text: 'Selected the ' + item.title + ' door which is a ' + state.user.selection.steps.step2.title + ' in material ' + state.user.selection.steps.step1.title,
+      new: true,
+      reading: false
+    }
+    state.user.toasts[toast.key] = toast;
+  }),
+  step4: action((state, update) => {
+    const step = {
+      title: update.id,
+      location: update.id,
+      link: '/steps/' + update.params.mat + '/' + update.params.dstyle + '/' + update.params.door
+    };
+    state.user.selection.steps[update.step] = step;
+    state.user.material.color = update.id;
+    state.materials.material = update.id;
+    // send out toast
+    const toast = {
+      key: 'doorcolor',
+      text: 'Selected ' + update.id + ' on a ' + update.params.door,
+      new: true,
+      reading: false
+    }
+    state.user.toasts[toast.key] = toast;
+  }),
+  step5: action((state, update) => {
+    const step = {
+      title: update.id,
+      location: update.id,
+      link: '/steps/' + update.params.mat + '/' + update.params.dstyle + '/' + update.params.door + '/' + update.params.color
+    };
+    state.user.selection.steps[update.step] = step;
+    state.user.material.color = update.id;
+    state.materials.material = update.id;
+    // send out toast
+    const toast = {
+      key: 'doorstain',
+      text: 'Selected ' + update.id + ' on a ' + update.params.color + ' - ' + update.params.door + ' door',
+      new: true,
+      reading: false
+    }
+    state.user.toasts[toast.key] = toast;
+  }),
+  updateStep: action((state, params) => {
+    let step = 0;
+    step = params.mat ? 1 : step;
+    step = params.dstyle ? 2 : step;
+    step = params.door ? 3 : step;
+    step = params.color ? 4 : step;
+    step = params.stain ? 5 : step;
+    state.user.selection.step = step;
+  }),
+  // Thunks
+  steps: thunk((actions, payload) => {
+    const step1 = payload.params.mat ? stepCheck(payload, 'mat', 'step1') : { skip: true };
+    const step2 = payload.params.dstyle ? stepCheck(payload, 'dstyle', 'step2') : { skip: true };
+    const step3 = payload.params.door ? stepCheck(payload, 'door', 'step3') : { skip: true };
+    const step4 = payload.params.color ? stepCheck(payload, 'color', 'step4') : { skip: true };
+    const step5 = payload.params.stain ? stepCheck(payload, 'stain', 'step5') : { skip: true };
+    if (step1.skip === false) {
+      actions.step1(step1);
+    }
+    if (step2.skip === false) {
+      actions.step2(step2);
+    }
+    if (step3.skip === false) {
+      actions.step3(step3);
+    }
+    if (step4.skip === false) {
+      actions.step4(step4);
+    }
+    if (step5.skip === false) {
+      actions.step5(step5);
+    }
+    actions.updateStep(payload.params);
   }),
   // Selectors
   getColor: selector([state => state], (stateResolvers, obj) => {
@@ -598,7 +679,6 @@ const model = {
     return samples;
   }),
   getDoorWoodStains: selector([state => state], (stateResolvers, params) => {
-    console.log(params)
     if (!stateResolvers[0].materials.loaded && !stateResolvers[0].doors.loaded) return false;
     const store = stateResolvers[0];
     const { door, color } = params[0];
@@ -615,5 +695,16 @@ const model = {
     return samples;
   })
 };
+
+function stepCheck(payload, key, stepid) {
+  const item = payload.params[key];
+  const step = {
+    id: item,
+    params: payload.params,
+    step: stepid,
+    skip: payload.selection.steps[stepid] && payload.selection.steps[stepid].location === item ? true : false
+  };
+  return step;
+}
 
 export default model;
