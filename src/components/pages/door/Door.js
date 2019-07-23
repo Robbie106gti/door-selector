@@ -19,7 +19,7 @@ export default function Door(props) {
   useStoreActions(state => state.doors.clickedDoor(props.match.params.door));
   state.loaded = useStoreState(state => state.doors.loaded);
   return state.loaded ? (
-    <Fragment>
+    <div className="step-wrapper">
       <div className="twoColumn">
         <div className="card-panel">
           <Link to={'../doors' + params} className="right"><span>{'<= Back'}</span></Link>
@@ -36,7 +36,7 @@ export default function Door(props) {
           <Carousel images={state.door.images.all} key="carousel" />
         </div>
       </div>
-    </Fragment>
+    </div>
   ) : (
       <Fragment>
         <Loading />

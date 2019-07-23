@@ -8,10 +8,10 @@ const Breadcrums = (crums) => {
   const steps = selection.steps ? Object.values(selection.steps) : [];
   useStoreActions(state => state.steps({ params: crums.match.params, selection }));
 
-  return selection.step === 0 ? (null) : (<nav>
+  return selection.step === 0 ? (null) : (<nav className="brown lighten-4 breadcrums">
     <div className="nav-wrapper">
-      <div className="col s12">
-        {steps.map(sel => (<Link to={sel.link} className="breadcrumb" key={sel.title}>{sel.title}</Link>))}
+      <div className="col s12 ">
+        {steps.map(sel => (<Link to={sel.link} className="breadcrumb grey-text text-darken-4" key={sel.title}>{sel.title}</Link>))}
       </div>
     </div>
   </nav>);

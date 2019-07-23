@@ -8,14 +8,14 @@ export default function Doors(props) {
   const doors = useStoreState(state => state.doors.getDoorFilterProps(props.match.params));
 
   return doors.length ? (
-    <Fragment>
+    <div className="step-wrapper">
       <Breadcrums crums={props} />
       <div className="row grid">
         {doors.map(card => (
           <CardHorizontal card={{ door: card, props, page: 'filtered' }} key={card.uid} />
         ))}
       </div>
-    </Fragment>
+    </div>
   ) : <Fragment>
       <Loading />
     </Fragment>;

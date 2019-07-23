@@ -7,10 +7,10 @@ import DoorStain from './DoorStain';
 const Step4Door = (props) => {
     const ready = useStoreState(store => store.getDoorMatLoaded()) || false;
     return ready ? (
-        <Fragment>
+        <div className="step-wrapper">
             <Breadcrums crums={props} />
             <DoorStain params={props.match.params} />
-        </Fragment>
+        </div>
     ) : (<Loading />);
 }
 

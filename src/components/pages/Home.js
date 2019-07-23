@@ -10,12 +10,14 @@ export default function Home(props) {
   props.match.params.mat ? dstyleChoice.forEach(route => route.mats.includes(props.match.params.mat) ? array.push({ ...route, props }) : null) : array = matChoice;
 
   return (<Fragment>
-    <Breadcrums crums={props} />
-    <div className="grid">
-      {array.map(route => (
-        <CardHome card={route} key={route.title} />
-      ))
-      }
+    <div className="step-wrapper">
+      <Breadcrums crums={props} />
+      <div className="gridHome">
+        {array.map(route => (
+          <CardHome card={route} key={route.title} />
+        ))
+        }
+      </div>
     </div>
   </Fragment>
   );

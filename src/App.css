@@ -7,6 +7,15 @@ html,
   padding: 0 !important;
 }
 
+.step-wrapper {
+  margin: 1rem;
+  border-radius: 0.3rem;
+}
+.breadcrums {
+  border-radius: 0.2rem;
+  padding-left: 0.5rem;
+}
+
 @media only screen and (max-width: 992px) {
   nav .brand-logo {
     font-size: 2rem;
@@ -172,14 +181,25 @@ progress::-webkit-progress-value {
   }
 
   .grid {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-left: 0rem;
+    margin-right: 0rem;
     margin-top: 0.5rem;
     display: -ms-grid;
     display: grid;
     grid-gap: 1rem;
     -ms-grid-columns: (minmax(20rem, 1fr)) [auto-fit];
     grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+  }
+
+  .gridHome {
+    margin-left: 0rem;
+    margin-right: 0rem;
+    margin-top: 0.5rem;
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 1rem;
+    -ms-grid-columns: (minmax(8rem, 1fr)) [auto-fit];
+    grid-template-columns: repeat(auto-fit, minmax(8em, 1fr));
   }
 
   .grid2 {
