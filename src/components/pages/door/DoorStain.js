@@ -15,7 +15,7 @@ const DoorStain = (params) => {
         <Link to={'./doors'} className="right"><span>{'<= Back'}</span></Link>
         <h2>{state.door.title}</h2>
         <Carousel images={state.door.images.all} key="carousel" />
-        <div><img src={state.material.image} alt={state.material.title} /></div>
+        <div className="card-content"><img src={state.material.image} alt={state.material.title} className="responsive-img" /></div>
       </div>
       <div className="card-panel">
         <h2>Stains</h2>
