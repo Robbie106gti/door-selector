@@ -8,13 +8,11 @@ import DoorAndColors from './Door&Colors';
 const StepDoor = (props) => {
     const ready = useStoreState(store => store.getDoorMatLoaded());
     return ready ? (
-        <div className="step-wrapper">
+        <Fragment>
             <Breadcrums crums={props} />
             <DoorAndColors params={props.match.params} />
-        </div>
-    ) : (
-            <Loading />
-        );
+        </Fragment>
+    ) : (<Loading />);
 }
 
 export default StepDoor

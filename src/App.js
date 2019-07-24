@@ -6,6 +6,7 @@ import { StoreProvider, createStore } from 'easy-peasy';
 
 import Footer from './components/ui/Footer';
 import Header from './components/ui/Header';
+import Sidebar from './components/ui/Sidebar';
 
 import Home from './components/pages/Home';
 import About from './components/pages/About';
@@ -16,6 +17,7 @@ import AllDoors from './components/pages/door/AllDoors';
 import Door from './components/pages/door/Door';
 import Step3Door from './components/pages/door/Step3Door';
 import Step4Door from './components/pages/door/Step4Door';
+import Save from './components/pages/save/Save';
 import Materials from './components/pages/materials/Materials';
 import Material from './components/pages/materials/Material';
 import Stains from './components/pages/stains/Stains';
@@ -39,7 +41,8 @@ class App extends Component {
       <Router basename={process.env.PUBLIC_URL}>
         <StoreProvider store={store}>
           <Header title="Door selector" />
-          <div className="container">
+          <Sidebar />
+          <div className="step-wrapper">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/steps/:mat" component={Home} />
@@ -47,6 +50,8 @@ class App extends Component {
               <Route exact path="/steps/:mat/:dstyle/:door" component={Step3Door} />
               <Route exact path="/steps/:mat/:dstyle/:door/:color" component={Step4Door} />
               <Route exact path="/steps/:mat/:dstyle/:door/:color/:stain" component={Step4Door} />
+              <Route exact path="/save/:mat/:dstyle/:door/:color" component={Save} />
+              <Route exact path="/save/:mat/:dstyle/:door/:color/:stain" component={Save} />
               <Route exact path="/doors" component={AllDoors} />
               <Route exact path="/doors/:material" component={Doors} />
               <Route exact path="/door/:door" component={Door} />

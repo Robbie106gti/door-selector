@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom';
 import Carousel from '../../ui/carousel';
 import CardStep from '../../fragments/cardstep';
@@ -7,7 +7,7 @@ const Step3 = (props) => {
   props = props.props;
   const state = props.state;
   return (
-    <div className="step-wrapper">
+    <Fragment>
       <div className="twoColumn">
         <div className="card-panel">
           <Link to={'./doors'} className="right"><span>{'<= Back'}</span></Link>
@@ -22,7 +22,7 @@ const Step3 = (props) => {
 
         </div>
       </div>
-    </div>
+    </Fragment>
   )
 }
 

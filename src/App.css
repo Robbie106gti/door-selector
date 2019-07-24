@@ -231,7 +231,8 @@ progress::-webkit-progress-value {
   }
 
   .twoColumn {
-    margin: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     display: -ms-grid;
     display: grid;
     grid-gap: 1rem;
