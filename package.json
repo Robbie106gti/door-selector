@@ -11,7 +11,7 @@
     "react-dom": "^16.8.3",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "5.0.1",
     "uuid": "^3.3.2"
   },
   "homepage": "https://webquoin.com/catalog/door-selector",
@@ -31,7 +31,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-dev-utils": "^7.0.3",
+    "react-dev-utils": "^12.0.1",
     "typescript": "^3.3.3333"
   }
 }
